@@ -1,14 +1,17 @@
-#' Whisker
+#' Logicless templating
 #'
-#' This is whisker
 #' @param template \code{character}
-#' @param data named \code{list} 
+#' @param data named \code{list} or env
 #' @export
 whisker <- function(template, data){
-   tmpl <- parse(template)
+   tmpl <- parseTemplate(template)
+   #print(tmpl)
    
-   s <- sapply(tmpl$keys, function(key){
-     data[[key]]
+   # to do check different key names
+   
+   s <- mapply(tmpl$keys, tmpl$func, FUN=function(key, fun){
+     key <- data[[key]]
+     fun(key)
    })
    
    sqt <- 2*seq_along(tmpl$text)-1
@@ -22,34 +25,71 @@ whisker <- function(template, data){
    do.call(paste, str)
 }
 
-parse <- function(template){
+parseTemplate <- function(template){
+  #TODO add delimiter switching
+
   delim <- strsplit("{{ }}"," ")[[1]]
-  
-  buildre <- function(delim){
-     re <- paste(delim[1],"\\s*(\\S+)\\s*", delim[2], sep="")
-     re <- gsub("([{<>}])", "\\\\\\1", re)
+ 
+  removeComments <- function(text, delim){
+     delim <- gsub("([{<>}])", "\\\\\\1", delim)
+     
+     re <- paste(delim[1],"\\s*(!.+?)\\s*", delim[2], sep="")
+     gsub(re, "",  text)
+  }
+   
+  template <- removeComments(template, delim)
+ 
+  keyregexpr <- function(delim){
+     delim <- gsub("([{<>}])", "\\\\\\1", delim)
+     re <- paste(delim[1],"\\s*(.+?)\\s*", delim[2], sep="")
      re
   }
-  re <- buildre(delim)
+     
+  re <- keyregexpr(delim)
+  
   
   
   text <- strsplit(template, re)[[1]]
   
-#  getkeys <- function(rex){
   first <- gregexpr(re, template)[[1]]
   last <- attr(first, "match.length") + first - 1
   keys <- substring(template, first, last)
   keys <- gsub(re, "\\1", keys)
- # }
 
-#   print(list( delim=delim
-#             , re = re
-#             , text=text
-#             , keys=keys
-#             #, keys = getkeys(rex)
-#             )
-#        )
-  list( text=text
-      , keys=keys
-      )
+  #TODO add section stuff
+  func <- list()
+  func[1:length(keys)] <- list(toHTML)
+
+  txt <- grep("^\\{(.+)\\}", keys)
+  keys <- gsub("^\\{\\s*(.+?)\\s*\\}", "\\1",keys)
+  func[txt] <- list(toText)
+   
+  txt <- grep("^&(.+)", keys)
+  keys <- gsub("^&\\s*(.+?)\\s*", "\\1",keys)
+  func[txt] <- list(toText)
+    
+  structure( list( text=text
+                 , keys=keys
+                 , func=func
+                 )
+            , class="template"
+            )
+}
+
+toText <- function(x){
+  as.character(x)
+}
+
+toHTML <- function(x){
+  x <- gsub("&", "&amp;", x)
+  x <- gsub("<", "&lt;", x)
+  x <- gsub(">", "&gt;", x)
+  x <- gsub('"', "&quot;", x)
+  x
+}
+   
+makeSection <- function(key, text, keys){
+}
+
+makeInvertedSection <- function(key, text, keys){
 }
