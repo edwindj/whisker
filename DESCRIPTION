@@ -10,7 +10,7 @@ Description: logicless templating, reuse templates in js, R
 Version: 0.1
 URL: http://github.com/edwindj/whisker
 Date: 2010-12-23
-Depends:
-    
 Collate:
     'whisker.R'
+Depends:
+    

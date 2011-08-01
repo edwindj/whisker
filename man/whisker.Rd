@@ -1,15 +1,15 @@
 \name{whisker}
 \alias{whisker}
-\title{Whisker}
+\title{Logicless templating}
 \usage{
   whisker(template, data)
 }
 \arguments{
   \item{template}{\code{character}}
 
-  \item{data}{named \code{list}}
+  \item{data}{named \code{list} or env}
 }
 \description{
-  This is whisker
+  Logicless templating
 }
 

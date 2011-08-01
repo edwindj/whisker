@@ -47,8 +47,6 @@ parseTemplate <- function(template){
      
   re <- keyregexpr(delim)
   
-  
-  
   text <- strsplit(template, re)[[1]]
   
   first <- gregexpr(re, template)[[1]]
