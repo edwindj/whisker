@@ -1,5 +1,5 @@
 library(testthat)
-context("Interpolation")
+context("Interpolation basics")
 test_that("No Interpolation", {
   data <- list()
   
@@ -88,7 +88,7 @@ test_that("Ampersand Decimal Interpolation", {
               )
 })
 
-context("Context Misses")
+context("Interpolation Context Misses")
 
 test_that("Basic Context Miss Interpolation", {
   data <- list(power=1.210)
@@ -113,9 +113,56 @@ test_that("Ampersand Context Miss Interpolation", {
               , "I () be seen!"
               )
 })
-context("Dotted names")
+context("Interpolation dotted names")
 
-context("Whitespace Sensitivity")
+test_that("Dotted Names - Basic Interpolation", {
+  data <- list(person=list(name="Joe"))
+  
+  expect_equal( whisker('"{{person.name}}" == "Joe"', data)
+              , '"Joe" == "Joe"'
+              )
+})
+
+test_that("Dotted Names - Triple Mustache Interpolation", {
+  data <- list(person=list(name="Joe"))
+  
+  expect_equal( whisker('"{{{person.name}}}" == "Joe"', data)
+              , '"Joe" == "Joe"'
+              )
+})
+
+test_that("Dotted Names - Ampersand Interpolation", {
+  data <- list(person=list(name="Joe"))
+  
+  expect_equal( whisker('"{{&person.name}}" == "Joe"', data)
+              , '"Joe" == "Joe"'
+              )
+})
+
+test_that("Dotted Names - Arbitrary Depth", {
+  data <- list(a=list(b=list(c=list(d=list(e=list(name="Phil"))))))
+  
+  expect_equal( whisker('"{{a.b.c.d.e.name}}" == "Phil"', data)
+              , '"Phil" == "Phil"'
+              )
+})
+
+test_that("Dotted Names - Broken chains", {
+  data <- list(a=list())
+  
+  expect_equal( whisker('"{{a.b.c}}" == ""', data)
+              , '"" == ""'
+              )
+})
+
+test_that("Dotted Names - Broken chain resolution", {
+  data <- list(a=list(b=list()), c=list(name="Jim"))
+  
+  expect_equal( whisker('"{{a.b.c.name}}" == ""', data)
+              , '"" == ""'
+              )
+})
+context("Interpolation Whitespace Sensitivity")
 
 test_that("Interpolation - Surrounding Whitespace", {
   data <- list(string="---")
@@ -165,7 +212,7 @@ test_that("Ampersand - Standalone", {
               )
 })
 
-context("Whitespace Insensitivity")
+context("Interpolation Whitespace Insensitivity")
 
 test_that("Interpolation With Padding", {
   data <- list(string="---")
