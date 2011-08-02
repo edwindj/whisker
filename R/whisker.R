@@ -29,27 +29,24 @@ parseTemplate <- function(template){
   #TODO add delimiter switching
 
   delim <- strsplit("{{ }}"," ")[[1]]
+  DELIM <- gsub("([{<>}])", "\\\\\\1", delim)
     
-  template <- removeComments(template, delim)
- 
-  keyregexpr <- function(delim){
-     delim <- gsub("([{<>}])", "\\\\\\1", delim)
-     re <- paste(delim[1],"\\s*(.+?)\\s*", delim[2], sep="")
-     re
-  }
-     
-  re <- keyregexpr(delim)
+  template <- removeComments(template, DELIM)
   
-  text <- strsplit(template, re)[[1]]
+  KEY <- paste(DELIM[1],"(.+?)", DELIM[2], sep="")
   
-  first <- gregexpr(re, template)[[1]]
+  text <- strsplit(template, KEY)[[1]]
+  
+  first <- gregexpr(KEY, template)[[1]]
   last <- attr(first, "match.length") + first - 1
   keys <- substring(template, first, last)
-  keys <- gsub(re, "\\1", keys)
-
+  keys <- gsub(KEY, "\\1", keys)
+  # remove all white spaces 
+  keys <- gsub("\\s", "", keys)
+  
   #TODO add section stuff
   func <- list()
-  func[1:length(keys)] <- list(toHTML)
+  func[1:length(keys)] <- list(whisker.escape)
 
   # triple mustache
   txt <- grep("^\\{(.+)\\}", keys)
@@ -73,13 +70,13 @@ toText <- function(x){
   as.character(x)
 }
 
-toHTML <- function(x){
+whisker.escape <- function(x){
   x <- gsub("&", "&amp;", x)
   x <- gsub("<", "&lt;", x)
   x <- gsub(">", "&gt;", x)
   x <- gsub('"', "&quot;", x)
   x
-} 
+}
    
 makeSection <- function(key, text, keys){
 }
@@ -103,16 +100,14 @@ resolve <- function(ctxt, tag){
   val
 }
   
-removeComments <- function(text, delim){
-   delim <- gsub("([{<>}])", "\\\\\\1", delim)
+removeComments <- function(text, DELIM){
+   COMMENT <- paste(DELIM[1],"!.+?", DELIM[2], sep="")
    
-   #remove stand alone commentlines
-   re <- paste("(^|\n)\\s*",delim[1],"!.+?", delim[2],"\\s*?(\n|$)", sep="")
+   #remove stand alone comment lines
+   re <- paste("(^|\n)\\s*",COMMENT,"\\s*?(\n|$)", sep="")
    text <- gsub(re, "\\1",  text)
 
    #remove inline comments
-   re <- paste(delim[1],"!.+?", delim[2], sep="")
-   text <- gsub(re, "",  text)
-
+   text <- gsub(COMMENT, "",  text)
    text
 }
