@@ -1,1 +1,2 @@
 export(whisker)
+export(whisker.escape)

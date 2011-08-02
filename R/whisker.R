@@ -2,6 +2,7 @@
 #'
 #' @param template \code{character}
 #' @param data named \code{list} or env
+#' @rdname whisker.render
 #' @export
 whisker <- function(template, data){
    tmpl <- parseTemplate(template)
@@ -24,6 +25,9 @@ whisker <- function(template, data){
    
    do.call(paste, str)
 }
+
+#' @rdname whisker.render
+whisker.render <- whisker
 
 parseTemplate <- function(template){
   #TODO add delimiter switching
@@ -70,6 +74,12 @@ toText <- function(x){
   as.character(x)
 }
 
+#' escape basic HTML characters
+#'
+#' This method will be called for double mustache entries
+#' @export
+#' @param x \code{character} that will be escaped
+#' @return HTML escaped character 
 whisker.escape <- function(x){
   x <- gsub("&", "&amp;", x)
   x <- gsub("<", "&lt;", x)
