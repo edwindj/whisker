@@ -53,8 +53,9 @@ parseTemplate <- function(template){
   func[1:length(keys)] <- list(whisker.escape)
 
   # triple mustache
-  txt <- grep("^\\{(.+)\\}", keys)
-  keys <- gsub("^\\{\\s*(.+?)\\s*\\}", "\\1",keys)
+  TRIPLE <- "^\\{(.+?)\\}"
+  txt <- grep(TRIPLE, keys)
+  keys <- gsub(TRIPLE, "\\1",keys)
   func[txt] <- list(toText)
   
   #ampersand
