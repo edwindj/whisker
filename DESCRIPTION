@@ -12,5 +12,7 @@ URL: http://github.com/edwindj/whisker
 Date: 2010-12-23
 Collate:
     'whisker.R'
+    'invertedsection.R'
+    'section.R'
 Depends:
     
