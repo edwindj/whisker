@@ -30,48 +30,6 @@ whisker <- function(template, data){
 #' @export
 whisker.render <- whisker
 
-parseTemplate <- function(template){
-  #TODO add delimiter switching
-
-  delim <- strsplit("{{ }}"," ")[[1]]
-  DELIM <- gsub("([{<>}])*+?", "\\\\\\1", delim)
-    
-  template <- removeComments(template, DELIM)
-  
-  KEY <- paste(DELIM[1],"(.+?)", DELIM[2], sep="")
-  
-  text <- strsplit(template, KEY)[[1]]
-  
-  first <- gregexpr(KEY, template)[[1]]
-  last <- attr(first, "match.length") + first - 1
-  keys <- substring(template, first, last)
-  keys <- gsub(KEY, "\\1", keys)
-  # remove all white spaces 
-  keys <- gsub("\\s", "", keys)
-  
-  #TODO add section stuff
-  func <- list()
-  func[1:length(keys)] <- list(whisker.escape)
-
-  # triple mustache
-  TRIPLE <- "^\\{(.+?)\\}"
-  txt <- grep(TRIPLE, keys)
-  keys <- gsub(TRIPLE, "\\1",keys)
-  func[txt] <- list(toText)
-  
-  #ampersand
-  txt <- grep("^&(.+)", keys)
-  keys <- gsub("^&\\s*(.+?)\\s*", "\\1",keys)
-  func[txt] <- list(toText)
-    
-  structure( list( text=text
-                 , keys=keys
-                 , func=func
-                 )
-            , class="template"
-            )
-}
-
 toText <- function(x){
   as.character(x)
 }
