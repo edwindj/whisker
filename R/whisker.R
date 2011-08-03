@@ -27,13 +27,14 @@ whisker <- function(template, data){
 }
 
 #' @rdname whisker.render
+#' @export
 whisker.render <- whisker
 
 parseTemplate <- function(template){
   #TODO add delimiter switching
 
   delim <- strsplit("{{ }}"," ")[[1]]
-  DELIM <- gsub("([{<>}])", "\\\\\\1", delim)
+  DELIM <- gsub("([{<>}])*+?", "\\\\\\1", delim)
     
   template <- removeComments(template, DELIM)
   
@@ -89,12 +90,6 @@ whisker.escape <- function(x){
   x
 }
    
-makeSection <- function(key, text, keys){
-}
-
-makeInvertedSection <- function(key, text, keys){
-}
-
 resolve <- function(ctxt, tag){
   if (tag=="."){
     return(ctxt)
