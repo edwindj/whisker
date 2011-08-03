@@ -4,9 +4,10 @@ AMPERSAND <- "^&(.+)"
 SECTION <- "\\#(.+)"
 INVERTEDSECTION <- "\\^(.+)"
 ENDSECTION <- "\\\\(.+)"
+PARTIAL <- "\\>(.+)"
 
 #keytypes
-keytypes <- c("", "{}", "&", "#", "^", "/")
+keytypes <- c("", "{}", "&", "#", "^", "/", ">")
 
 parseTemplate <- function(template){
   #TODO add delimiter switching
@@ -37,12 +38,14 @@ parseTemplate <- function(template){
   key$type[grep(SECTION, key$rawkey)] <- "#"
   key$type[grep(INVERTEDSECTION, key$rawkey)] <- "^"
   key$type[grep(ENDSECTION, key$rawkey)] <- "/"
+  key$type[grep(PARTIAL, key$rawkey)] <- ">"
 
   key$key <- gsub(TRIPLE, "\\1",key$key)
   key$key <- gsub(AMPERSAND, "\\1",key$key)
   key$key <- gsub(SECTION, "\\1",key$key)
   key$key <- gsub(INVERTEDSECTION, "\\1",key$key)
   key$key <- gsub(ENDSECTION, "\\1",key$key)
+  key$key <- gsub(PARTIAL, "\\1",key$key)
  
   #print(key)
   
