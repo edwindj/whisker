@@ -5,8 +5,9 @@
 #' @return \code{character} with rendered template
 #' @rdname whisker.render
 #' @export
-whisker.render <- function(template, data=parent.frame()){
+whisker.render <- function(template, data=parent.frame(), debug=FALSE){
    tmpl <- parseTemplate(template)
+   if (debug) print(tmpl)
    
    s <- mapply(tmpl$keys, tmpl$render, FUN=function(key, render){
      keydata <- resolve(data, key)
