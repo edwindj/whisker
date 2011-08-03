@@ -1,28 +1,21 @@
 #' Logicless templating
 #'
-#' @param template \code{character}
+#' @param template \code{character} with template text
 #' @param data named \code{list} or env
 #' @return \code{character} with rendered template
 #' @rdname whisker.render
 #' @export
 whisker.render <- function(template, data=parent.frame(), debug=FALSE){
-   tmpl <- parseTemplate(template)
+   tmpl <- parseTemplate(template, debug)
    if (debug) print(tmpl)
    
-   s <- mapply(tmpl$keys, tmpl$render, FUN=function(key, render){
-     keydata <- resolve(data, key)
-     render(keydata)
-   })
-   
-   sqt <- 2*seq_along(tmpl$text)-1
-   sqk <- 2*seq_along(tmpl$keys)
-   str <- character()
-   str[sqt] <- tmpl$text
-   str[sqk] <- s
-   str <- as.list(str)
-   str["sep"] <- ""
-   
-   do.call(paste, str)
+   return( renderBody( ctxt=data
+                     , texts=tmpl$texts
+                     , keys=tmpl$keys
+                     , renders=tmpl$renders
+                     , debug=debug
+                     )
+         )
 }
 
 #' @rdname whisker.render
@@ -47,12 +40,33 @@ whisker.future <- function( infile=stdin()
   invisible(template)
 }
 
-renderText <- function(x){
-  as.character(x)
+renderText <- function(x, context){
+  x
 }
 
-renderHTML <- function(x){
+renderHTML <- function(x, context){
   renderText(whisker.escape(x))
+}
+
+renderBody <- function(ctxt, data=ctxt, texts, keys, renders, debug=FALSE){
+   if (debug){
+      print(ls.str())
+   }
+   
+   s <- mapply(keys, renders, FUN=function(key, render){
+     val <- resolve(ctxt, key, data)
+     render(val, ctxt)
+   })
+   
+   sqt <- 2*seq_along(texts)-1
+   sqk <- 2*seq_along(keys)
+   str <- character()
+   str[sqt] <- texts
+   str[sqk] <- s
+   str <- as.list(str)
+   str["sep"] <- ""
+   
+   do.call(paste, str)
 }
 
 #' escape basic HTML characters

@@ -1,25 +1,29 @@
 # todo add R specific things, data.frame and vector rendering 
 # for data.frames it should render per row (using paste)
 # for vectors it should render per item (for ".")
-section <- function(text, keys, render){
+section <- function(texts, keys, renders, debug=FALSE){
+   texts <- texts
+   keys <- keys
+   renders <- renders
    
-   ctxt <- NULL
-   sectionkey <- NULL
-   text <- NULL
-   
-   renderFUN <- function(val){
+   renderFUN <- function(val, context){
       if (val == FALSE){
-         print("hi")
-         return("")
+         return()
       }
       
       if (val == TRUE){
+         return(renderBody(context, val, texts, keys, renders, debug=debug))
       }
       
-      if (is.list(val) && !is.data.frame(val)){
-         # create a new context from the list that is a child of the given context
+      if (is.data.frame(val)){
+         return(renderBody(context, val, texts, keys, renders, debug=debug))
       }
-      # further resolution should be done using external supplied ctxt and the value of the section key   
+      
+      # if (is.list(val)) {
+         # # create a new context from the list that is a child of the given context
+      # }
+      
+      renderBody(context, val, texts, keys, renders, debug=debug)
    }
    renderFUN
 }

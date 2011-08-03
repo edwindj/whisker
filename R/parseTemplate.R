@@ -9,7 +9,7 @@ PARTIAL <- "\\\\>(.+)"
 #keytypes
 keytypes <- c("", "{}", "&", "#", "^", "/", ">")
 
-parseTemplate <- function(template){
+parseTemplate <- function(template, debug=FALSE){
   #TODO add delimiter switching
   delim <- strsplit("{{ }}"," ")[[1]]
   
@@ -48,12 +48,14 @@ parseTemplate <- function(template){
        # make a section or inverted section
        idx <- i:(h+1)
        exclude[idx] <- TRUE
-       
+       if (debug) print(list(idx=idx, text=text))
        render[h] <- list(section( text[idx]
-                                , keys[idx[-1]]
-                                , render[idx[-1]]) 
+                                , key$key[idx[-1]]
+                                , render[idx[-1]]
+                                , debug=debug
+                                ) 
                                 #TODO add raw template text using first and last
-                                )
+                        )
        
      } else if (type == ">"){
        stop("Partials (not) yet supported")
@@ -66,11 +68,11 @@ parseTemplate <- function(template){
   keys <- key$key[!exclude]
   text <- text[c(!exclude, TRUE)[seq_along(text)]] # only select text that is needed
   render <- render[!exclude]
-    
-  structure( list( text=text
+  
+  structure( list( texts=text
                  , keys=keys
-                 , render=render
-                 , keydata = key  #debugging purposes
+                 , renders=render
+                 , keyinfo = key  #debugging purposes
                  )
             , class="template"
             )
