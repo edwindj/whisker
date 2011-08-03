@@ -2,17 +2,15 @@
 #'
 #' @param template \code{character}
 #' @param data named \code{list} or env
+#' @return \code{character} with rendered template
 #' @rdname whisker.render
 #' @export
-whisker <- function(template, data){
+whisker.render <- function(template, data=parent.frame()){
    tmpl <- parseTemplate(template)
-   #print(tmpl)
    
-   # to do check different key names
-   
-   s <- mapply(tmpl$keys, tmpl$func, FUN=function(key, fun){
+   s <- mapply(tmpl$keys, tmpl$render, FUN=function(key, render){
      keydata <- resolve(data, key)
-     fun(keydata)
+     render(keydata)
    })
    
    sqt <- 2*seq_along(tmpl$text)-1
@@ -28,15 +26,37 @@ whisker <- function(template, data){
 
 #' @rdname whisker.render
 #' @export
-whisker.render <- whisker
+whisker <- whisker.render
 
-toText <- function(x){
+# TODO change this into whisker...
+whisker.future <- function( infile=stdin()
+                          , outfile=stdout()
+                          , data=if (!missing(infile)) parent.frame()
+                                 else NULL
+                          , text=NULL
+                          , render=!is.null(data)
+                          ){
+  if (missing(infile) && !is.null(text)){
+     infile <- textConnection(text)
+  }
+  template <- paste(readLines(infile), collapse="\n")
+  template <- parseTemplate(template)
+  #compile template
+  
+  invisible(template)
+}
+
+renderText <- function(x){
   as.character(x)
+}
+
+renderHTML <- function(x){
+  renderText(whisker.escape(x))
 }
 
 #' escape basic HTML characters
 #'
-#' This method will be called for double mustache entries
+#' This method is called for normal mustache keys
 #' @export
 #' @param x \code{character} that will be escaped
 #' @return HTML escaped character 
@@ -48,13 +68,15 @@ whisker.escape <- function(x){
   x
 }
    
-resolve <- function(ctxt, tag){
+resolve <- function(ctxt, tag, val=ctxt){
   if (tag=="."){
     return(ctxt)
   }
-  val <- ctxt
   keys <- strsplit(tag, split=".", fixed=TRUE)[[1]]
   for (key in keys){
+    if (is.null(val)){
+       val <- ctxt
+    }
     val <- if (is.environment(val)){
              get(key, envir=val)
            } else {
@@ -62,16 +84,4 @@ resolve <- function(ctxt, tag){
            }
   }
   val
-}
-  
-removeComments <- function(text, DELIM){
-   COMMENT <- paste(DELIM[1],"!.+?", DELIM[2], sep="")
-   
-   #remove stand alone comment lines
-   re <- paste("(^|\n)\\s*",COMMENT,"\\s*?(\n|$)", sep="")
-   text <- gsub(re, "\\1",  text)
-
-   #remove inline comments
-   text <- gsub(COMMENT, "",  text)
-   text
 }
