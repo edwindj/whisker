@@ -14,5 +14,7 @@ Collate:
     'whisker.R'
     'invertedsection.R'
     'section.R'
+    'parseTemplate.R'
+    'partials.R'
 Depends:
     

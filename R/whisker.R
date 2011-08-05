@@ -7,15 +7,17 @@
 #' @export
 whisker.render <- function(template, data=parent.frame(), debug=FALSE){
    tmpl <- parseTemplate(template, debug)
-   if (debug) print(tmpl)
+   #if (debug) print(tmpl)
    
-   return( renderBody( ctxt=data
-                     , texts=tmpl$texts
-                     , keys=tmpl$keys
-                     , renders=tmpl$renders
-                     , debug=debug
-                     )
-         )
+   values <- sapply(tmpl$keys, resolve, context=data)
+   
+   return( renderTemplate( values=values
+                         , context=data
+                         , texts=tmpl$texts
+                         , renders=tmpl$renders
+                         , debug=debug
+                         )
+          )
 }
 
 #' @rdname whisker.render
@@ -48,18 +50,14 @@ renderHTML <- function(x, context){
   renderText(whisker.escape(x))
 }
 
-renderBody <- function(ctxt, data=ctxt, texts, keys, renders, debug=FALSE){
-   if (debug){
-      print(ls.str())
-   }
+renderTemplate <- function(values, context, texts, renders, debug=FALSE){
    
-   s <- mapply(keys, renders, FUN=function(key, render){
-     val <- resolve(ctxt, key, data)
-     render(val, ctxt)
+   s <- mapply(values, renders, FUN=function(value, render){
+     render(value, context)
    })
    
    sqt <- 2*seq_along(texts)-1
-   sqk <- 2*seq_along(keys)
+   sqk <- 2*seq_along(s)
    str <- character()
    str[sqt] <- texts
    str[sqk] <- s
@@ -82,15 +80,26 @@ whisker.escape <- function(x){
   x <- gsub('"', "&quot;", x)
   x
 }
+  
+getValue <- function(key, context){
+    val <- if (is.environment(val)){
+             get(key, envir=val)
+           } else {
+             as.list(val)[[key]]
+           }
+    val
+}
    
-resolve <- function(ctxt, tag, val=ctxt){
+resolve <- function(tag, context,  val=context){
+  
   if (tag=="."){
-    return(ctxt)
+    return(context)
   }
+  
   keys <- strsplit(tag, split=".", fixed=TRUE)[[1]]
   for (key in keys){
     if (is.null(val)){
-       val <- ctxt
+       val <- context
     }
     val <- if (is.environment(val)){
              get(key, envir=val)
@@ -99,4 +108,11 @@ resolve <- function(ctxt, tag, val=ctxt){
            }
   }
   val
+}
+
+isFalsey <- function(x){
+  ( NROW(x)==0
+ || (is.logical(x) && !x[1])
+ || is.function(x)
+  )
 }

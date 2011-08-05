@@ -6,24 +6,18 @@ section <- function(texts, keys, renders, debug=FALSE){
    keys <- keys
    renders <- renders
    
-   renderFUN <- function(val, context){
-      if (val == FALSE){
-         return()
-      }
-      
-      if (val == TRUE){
-         return(renderBody(context, val, texts, keys, renders, debug=debug))
-      }
-      
-      if (is.data.frame(val)){
-         return(renderBody(context, val, texts, keys, renders, debug=debug))
-      }
-      
-      # if (is.list(val)) {
-         # # create a new context from the list that is a child of the given context
-      # }
-      
-      renderBody(context, val, texts, keys, renders, debug=debug)
+   renderFUN <- function(value, context){
+      processSection(value, context, texts, keys, renders, debug=debug)
    }
    renderFUN
+}
+
+processSection <- function(value, context, texts, keys, renders, debug=FALSE){
+   if (isFalsey(value)){
+     return()
+   }
+   
+   values <- sapply(keys, resolve, context=context)
+   #print(list(values=values))
+   return(renderTemplate(values, context, texts, renders, debug=debug))
 }

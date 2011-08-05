@@ -1,16 +1,20 @@
-\name{whisker}
+\name{whisker.render}
 \alias{whisker}
 \alias{whisker.render}
 \title{Logicless templating}
 \usage{
-  whisker(template, data)
+  whisker.render(template, data = parent.frame(), debug =
+  FALSE)
 
-  whisker.render(template, data)
+  whisker(template, data = parent.frame(), debug = FALSE)
 }
 \arguments{
-  \item{template}{\code{character}}
+  \item{template}{\code{character} with template text}
 
   \item{data}{named \code{list} or env}
+}
+\value{
+  \code{character} with rendered template
 }
 \description{
   Logicless templating

@@ -1,4 +1,4 @@
-# key types regexpr
+#key type regexpr
 TRIPLE <- "^\\{(.+)\\}"
 AMPERSAND <- "^&(.+)"
 SECTION <- "\\#(.+)"
@@ -46,12 +46,12 @@ parseTemplate <- function(template, debug=FALSE){
        }
        
        # make a section or inverted section
-       idx <- i:(h+1)
+       idx <- (h+1):i
+       kidx <- idx[-length(idx)]
        exclude[idx] <- TRUE
-       if (debug) print(list(idx=idx, text=text))
        render[h] <- list(section( text[idx]
-                                , key$key[idx[-1]]
-                                , render[idx[-1]]
+                                , key$key[kidx]
+                                , render[kidx]
                                 , debug=debug
                                 ) 
                                 #TODO add raw template text using first and last

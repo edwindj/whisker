@@ -11,6 +11,6 @@
   HTML escaped character
 }
 \description{
-  This method will be called for double mustache entries
+  This method is called for normal mustache keys
 }
 
