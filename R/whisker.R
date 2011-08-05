@@ -7,12 +7,17 @@
 #' @export
 whisker.render <- function(template, data=parent.frame(), debug=FALSE){
    tmpl <- parseTemplate(template, debug)
-   #if (debug) print(tmpl)
+   context <- list(data)
    
-   values <- sapply(tmpl$keys, resolve, context=data)
+   values <- lapply(tmpl$keys, resolve, context=context)
+#    if(debug) print(list( wisker.render=values
+#                        , context=context
+#                        , data=data
+#                        , keys=tmpl$keys)
+#                        )
    
    return( renderTemplate( values=values
-                         , context=data
+                         , context=context
                          , texts=tmpl$texts
                          , renders=tmpl$renders
                          , debug=debug
@@ -81,33 +86,20 @@ whisker.escape <- function(x){
   x
 }
   
-getValue <- function(key, context){
-    val <- if (is.environment(val)){
-             get(key, envir=val)
-           } else {
-             as.list(val)[[key]]
-           }
-    val
-}
-   
-resolve <- function(tag, context,  val=context){
-  
+resolve <- function(tag, context, debug=FALSE){
   if (tag=="."){
-    return(context)
+    return(context[[1]])
   }
   
   keys <- strsplit(tag, split=".", fixed=TRUE)[[1]]
-  for (key in keys){
-    if (is.null(val)){
-       val <- context
+  if (!length(keys))
+    return()
+  
+  value <- context[[1, drop=FALSE]]
+   for (key in keys){
+      value <- value[[key]]
     }
-    val <- if (is.environment(val)){
-             get(key, envir=val)
-           } else {
-             as.list(val)[[key]]
-           }
-  }
-  val
+    value
 }
 
 isFalsey <- function(x){

@@ -5,6 +5,7 @@ SECTION <- "\\#(.+)"
 INVERTEDSECTION <- "\\^(.+)"
 ENDSECTION <- "/(.+)"
 PARTIAL <- "\\\\>(.+)"
+COMMENT <- "!.+?"
 
 #keytypes
 keytypes <- c("", "{}", "&", "#", "^", "/", ">")
@@ -16,6 +17,7 @@ parseTemplate <- function(template, debug=FALSE){
   DELIM <- gsub("([{<>}*?+])", "\\\\\\1", delim)
   
   template <- removeComments(template, DELIM)
+  template <- inlineStandAlone(template, DELIM, INVERTEDSECTION)
   
   KEY <- paste(DELIM[1],"(.+?)", DELIM[2], sep="")
   
@@ -35,6 +37,7 @@ parseTemplate <- function(template, debug=FALSE){
   stack <- integer()
   for (i in seq_along(key$key)){
      type <- key$type[i]
+     
      if(type %in% c("#", "^")){
        stack <- c(i, stack)
      } else if (type == "/"){
@@ -49,15 +52,16 @@ parseTemplate <- function(template, debug=FALSE){
        idx <- (h+1):i
        kidx <- idx[-length(idx)]
        exclude[idx] <- TRUE
-       render[h] <- list(section( text[idx]
-                                , key$key[kidx]
-                                , render[kidx]
-                                , debug=debug
-                                ) 
-                                #TODO add raw template text using first and last
-                        )
        
-     } else if (type == ">"){
+       renderFUN <- if (key$type[h] == "#") section
+                    else inverted
+      
+       render[h] <- list(renderFUN( text[idx]
+                                  , key$key[kidx]
+                                  , render[kidx]
+                                  ) 
+                        )
+       } else if (type == ">"){
        stop("Partials (not) yet supported")
      }
   }
@@ -106,14 +110,18 @@ getKeyInfo <- function(template, KEY){
   key
 }
 
-removeComments <- function(text, DELIM){
-   COMMENT <- paste(DELIM[1],"!.+?", DELIM[2], sep="")
+inlineStandAlone <- function(text, DELIM, keyregexp){
+   dKEY <- paste(DELIM[1],keyregexp, DELIM[2], sep="")
    
    #remove stand alone comment lines
-   re <- paste("(^|\n)\\s*",COMMENT,"\\s*?(\n|$)", sep="")
-   text <- gsub(re, "\\1",  text)
+   re <- paste("(^|\n)\\s*(",dKEY,")\\s*?(\n|$)", sep="")
+   gsub(re, "\\1\\2",  text)  
+}
 
+removeComments <- function(text, DELIM){
+   text <- inlineStandAlone(text, DELIM, COMMENT)
+  
    #remove inline comments
-   text <- gsub(COMMENT, "",  text)
-   text
+   dCOMMENT <- paste(DELIM[1],COMMENT, DELIM[2], sep="")   
+   gsub(dCOMMENT, "",  text)
 }

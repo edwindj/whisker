@@ -1,1 +1,0 @@
-invertedsection <- function(){}

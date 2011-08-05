@@ -5,7 +5,6 @@ context("sections")
 test_that("Truthy",{
   data <- list(boolean=TRUE)
   str <- whisker.render('"{{#boolean}}This should be rendered.{{/boolean}}"', data)
-  #print(str)
   expect_equal(str, '"This should be rendered."')
 })
 
@@ -18,6 +17,5 @@ test_that("Falsey",{
 test_that("Context",{
   data <- list(context=list(name='Joe'))
   str <- whisker.render('"{{#context}}Hi {{name}}.{{/context}}"', data=data, debug=TRUE)
-  print(str)
   expect_equal(str, '"Hi Joe."')
-}) 
+})  
