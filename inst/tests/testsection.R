@@ -16,6 +16,6 @@ test_that("Falsey",{
 
 test_that("Context",{
   data <- list(context=list(name='Joe'))
-  str <- whisker.render('"{{#context}}Hi {{name}}.{{/context}}"', data=data, debug=TRUE)
+  str <- whisker.render('"{{#context}}Hi {{name}}.{{/context}}"', data=data)
   expect_equal(str, '"Hi Joe."')
 })  

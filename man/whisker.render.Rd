@@ -3,10 +3,9 @@
 \alias{whisker.render}
 \title{Logicless templating}
 \usage{
-  whisker.render(template, data = parent.frame(), debug =
-  FALSE)
+  whisker.render(template, data = parent.frame())
 
-  whisker(template, data = parent.frame(), debug = FALSE)
+  whisker(template, data = parent.frame())
 }
 \arguments{
   \item{template}{\code{character} with template text}
@@ -18,5 +17,14 @@
 }
 \description{
   Logicless templating
+}
+\examples{
+template <- "Hello {{place}}!"
+
+place <- "World"
+
+
+
+whisker.render(template)
 }
 

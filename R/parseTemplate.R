@@ -16,6 +16,7 @@ parseTemplate <- function(template, debug=FALSE){
   
   DELIM <- gsub("([{<>}*?+])", "\\\\\\1", delim)
   
+  template <- paste(template, collapse="\n")
   template <- removeComments(template, DELIM)
   template <- inlineStandAlone(template, DELIM, INVERTEDSECTION)
   
@@ -62,7 +63,7 @@ parseTemplate <- function(template, debug=FALSE){
                                   ) 
                         )
        } else if (type == ">"){
-       stop("Partials (not) yet supported")
+       stop("Partials not (yet) supported")
      }
   }
   if (length(stack)){
@@ -89,8 +90,8 @@ getKeyInfo <- function(template, KEY){
   keys <- gsub(KEY, "\\1", keys)
   
   key <- data.frame(rawkey=keys, first=first, last=last)
-    
-  # keys should not contains white space, (triple and ampersand may contain surrounding whitespace
+  
+  # keys should not contain white space, (triple and ampersand may contain surrounding whitespace
   key$key <- gsub("\\s", "", key$rawkey)
   key$type <- factor("", levels=keytypes)
   

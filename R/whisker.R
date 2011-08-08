@@ -4,8 +4,9 @@
 #' @param data named \code{list} or env
 #' @return \code{character} with rendered template
 #' @rdname whisker.render
+#' @example example/whisker_render.R
 #' @export
-whisker.render <- function(template, data=parent.frame(), debug=FALSE){
+whisker.render <- function(template, data=parent.frame()){
    tmpl <- parseTemplate(template, debug)
    context <- list(data)
    
