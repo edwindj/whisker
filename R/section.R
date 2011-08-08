@@ -19,10 +19,6 @@ processSection <- function(value, context, texts, keys, renders){
    if (is.list(value)){
      context <- c(list(value), context)
    }
-#    if(debug){
-#      cat("\n******processSection******\n")
-#      print(list(context2=context, value=value, keys=keys, renders=renders))
-#    }
    values <- lapply(X=keys, FUN=resolve, context=context)
    return(renderTemplate(values, context, texts, renders))
 }

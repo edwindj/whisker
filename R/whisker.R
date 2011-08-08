@@ -6,16 +6,17 @@
 #' @rdname whisker.render
 #' @example example/whisker_render.R
 #' @export
-whisker.render <- function(template, data=parent.frame()){
-   tmpl <- parseTemplate(template, debug)
+whisker.render <- function(template, data=parent.frame(), debug=FALSE){
+   tmpl <- parseTemplate(template, debug=debug)
    context <- list(data)
    
    values <- lapply(tmpl$keys, resolve, context=context)
-#    if(debug) print(list( wisker.render=values
-#                        , context=context
-#                        , data=data
-#                        , keys=tmpl$keys)
-#                        )
+   if(debug) print(list( whisker.render=values
+                       , keyinfo=tmpl$keyinfo
+                       , context=context
+                       , data=data
+                       , keys=tmpl$keys)
+                       )
    
    return( renderTemplate( values=values
                          , context=context
@@ -49,7 +50,7 @@ whisker.future <- function( infile=stdin()
 }
 
 renderText <- function(x, context){
-  x
+  paste(x, collapse=",")
 }
 
 renderHTML <- function(x, context){
@@ -87,20 +88,25 @@ whisker.escape <- function(x){
   x
 }
   
-resolve <- function(tag, context, debug=FALSE){
+resolve <- function(tag, context, debug=TRUE){
   if (tag=="."){
     return(context[[1]])
   }
+  
+  #TODO R supports names that have a "."
+  # , so first search for "." and than split
   
   keys <- strsplit(tag, split=".", fixed=TRUE)[[1]]
   if (!length(keys))
     return()
   
-  value <- context[[1, drop=FALSE]]
-   for (key in keys){
-      value <- value[[key]]
+  for (data in context){
+    value <- data
+    for (key in keys){
+       value <- value[[key]]
     }
-    value
+    if (!is.null(value)) return(value)
+  }
 }
 
 isFalsey <- function(x){

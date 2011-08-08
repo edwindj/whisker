@@ -1,10 +1,10 @@
 #key type regexpr
 TRIPLE <- "^\\{(.+)\\}"
 AMPERSAND <- "^&(.+)"
-SECTION <- "\\#(.+)"
-INVERTEDSECTION <- "\\^(.+)"
-ENDSECTION <- "/(.+)"
-PARTIAL <- "\\\\>(.+)"
+SECTION <- "\\#(.+?)"
+INVERTEDSECTION <- "\\^(.+?)"
+ENDSECTION <- "/(.+?)"
+PARTIAL <- "\\\\>(.+?)"
 COMMENT <- "!.+?"
 
 #keytypes
@@ -18,8 +18,10 @@ parseTemplate <- function(template, debug=FALSE){
   
   template <- paste(template, collapse="\n")
   template <- removeComments(template, DELIM)
+  template <- inlineStandAlone(template, DELIM, SECTION)
   template <- inlineStandAlone(template, DELIM, INVERTEDSECTION)
-  
+  template <- inlineStandAlone(template, DELIM, ENDSECTION, end=TRUE)
+ 
   KEY <- paste(DELIM[1],"(.+?)", DELIM[2], sep="")
   
   text <- strsplit(template, KEY)[[1]] 
@@ -35,14 +37,18 @@ parseTemplate <- function(template, debug=FALSE){
   
   # parse sections and inverted sections
   exclude <- logical(n)
-  stack <- integer()
+  insection <- integer(n)
+  stack <- 0L
   for (i in seq_along(key$key)){
+     h <- stack[1]
+     insection[i] <- h
      type <- key$type[i]
-     
+
      if(type %in% c("#", "^")){
+       # section and inverted section
        stack <- c(i, stack)
      } else if (type == "/"){
-       h <- stack[1]
+       #end section
        stack <- stack[-1]
        
        if (key$key[h]!=key$key[i]){
@@ -50,10 +56,9 @@ parseTemplate <- function(template, debug=FALSE){
        }
        
        # make a section or inverted section
-       idx <- (h+1):i
+       idx <- which(h==insection)
        kidx <- idx[-length(idx)]
-       exclude[idx] <- TRUE
-       
+
        renderFUN <- if (key$type[h] == "#") section
                     else inverted
       
@@ -63,13 +68,15 @@ parseTemplate <- function(template, debug=FALSE){
                                   ) 
                         )
        } else if (type == ">"){
+         #partial
        stop("Partials not (yet) supported")
-     }
+     } 
   }
-  if (length(stack)){
+  if (length(stack) > 1){
      stop("Template does not close the following tags: ", key$rawkey[stack])
   }
   
+  exclude <- insection > 0
   keys <- key$key[!exclude]
   text <- text[c(!exclude, TRUE)[seq_along(text)]] # only select text that is needed
   render <- render[!exclude]
@@ -111,12 +118,15 @@ getKeyInfo <- function(template, KEY){
   key
 }
 
-inlineStandAlone <- function(text, DELIM, keyregexp){
+inlineStandAlone <- function(text, DELIM, keyregexp, end=FALSE){
    dKEY <- paste(DELIM[1],keyregexp, DELIM[2], sep="")
    
    #remove stand alone comment lines
-   re <- paste("(^|\n)\\s*(",dKEY,")\\s*?(\n|$)", sep="")
-   gsub(re, "\\1\\2",  text)  
+   re <- paste("(^|\n)\\s*?(",dKEY,")\\s*?(\n|$)", sep="")
+   if (end)
+     gsub(re, "\\2\\4",  text)
+   else
+     gsub(re, "\\1\\2",  text)     
 }
 
 removeComments <- function(text, DELIM){
