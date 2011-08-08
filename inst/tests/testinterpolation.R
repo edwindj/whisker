@@ -35,7 +35,7 @@ test_that( "No Interpolation", {
   data <- list()
   str <- whisker.render(template, data=data)
   
-  expect_equal("Hello from {Mustache}!\n", str, info="Mustache-free templates should render as-is.")
+  expect_equal(str, "Hello from {Mustache}!\n", label=deparse(str), info="Mustache-free templates should render as-is.")
 })
 
 test_that( "Basic Interpolation", {
@@ -44,7 +44,7 @@ test_that( "Basic Interpolation", {
   data <- list(subject = "world")
   str <- whisker.render(template, data=data)
   
-  expect_equal("Hello, world!\n", str, info="Unadorned tags should interpolate content into the template.")
+  expect_equal(str, "Hello, world!\n", label=deparse(str), info="Unadorned tags should interpolate content into the template.")
 })
 
 test_that( "HTML Escaping", {
@@ -53,7 +53,7 @@ test_that( "HTML Escaping", {
   data <- list(forbidden = "& \" < >")
   str <- whisker.render(template, data=data)
   
-  expect_equal("These characters should be HTML escaped: &amp; &quot; &lt; &gt;\n", str, info="Basic interpolation should be HTML escaped.")
+  expect_equal(str, "These characters should be HTML escaped: &amp; &quot; &lt; &gt;\n", label=deparse(str), info="Basic interpolation should be HTML escaped.")
 })
 
 test_that( "Triple Mustache", {
@@ -62,7 +62,7 @@ test_that( "Triple Mustache", {
   data <- list(forbidden = "& \" < >")
   str <- whisker.render(template, data=data)
   
-  expect_equal("These characters should not be HTML escaped: & \" < >\n", str, info="Triple mustaches should interpolate without HTML escaping.")
+  expect_equal(str, "These characters should not be HTML escaped: & \" < >\n", label=deparse(str), info="Triple mustaches should interpolate without HTML escaping.")
 })
 
 test_that( "Ampersand", {
@@ -71,7 +71,7 @@ test_that( "Ampersand", {
   data <- list(forbidden = "& \" < >")
   str <- whisker.render(template, data=data)
   
-  expect_equal("These characters should not be HTML escaped: & \" < >\n", str, info="Ampersand should interpolate without HTML escaping.")
+  expect_equal(str, "These characters should not be HTML escaped: & \" < >\n", label=deparse(str), info="Ampersand should interpolate without HTML escaping.")
 })
 
 test_that( "Basic Integer Interpolation", {
@@ -80,7 +80,7 @@ test_that( "Basic Integer Interpolation", {
   data <- list(mph = 85)
   str <- whisker.render(template, data=data)
   
-  expect_equal("\"85 miles an hour!\"", str, info="Integers should interpolate seamlessly.")
+  expect_equal(str, "\"85 miles an hour!\"", label=deparse(str), info="Integers should interpolate seamlessly.")
 })
 
 test_that( "Triple Mustache Integer Interpolation", {
@@ -89,7 +89,7 @@ test_that( "Triple Mustache Integer Interpolation", {
   data <- list(mph = 85)
   str <- whisker.render(template, data=data)
   
-  expect_equal("\"85 miles an hour!\"", str, info="Integers should interpolate seamlessly.")
+  expect_equal(str, "\"85 miles an hour!\"", label=deparse(str), info="Integers should interpolate seamlessly.")
 })
 
 test_that( "Ampersand Integer Interpolation", {
@@ -98,7 +98,7 @@ test_that( "Ampersand Integer Interpolation", {
   data <- list(mph = 85)
   str <- whisker.render(template, data=data)
   
-  expect_equal("\"85 miles an hour!\"", str, info="Integers should interpolate seamlessly.")
+  expect_equal(str, "\"85 miles an hour!\"", label=deparse(str), info="Integers should interpolate seamlessly.")
 })
 
 test_that( "Basic Decimal Interpolation", {
@@ -107,7 +107,7 @@ test_that( "Basic Decimal Interpolation", {
   data <- list(power = 1.21)
   str <- whisker.render(template, data=data)
   
-  expect_equal("\"1.21 jiggawatts!\"", str, info="Decimals should interpolate seamlessly with proper significance.")
+  expect_equal(str, "\"1.21 jiggawatts!\"", label=deparse(str), info="Decimals should interpolate seamlessly with proper significance.")
 })
 
 test_that( "Triple Mustache Decimal Interpolation", {
@@ -116,7 +116,7 @@ test_that( "Triple Mustache Decimal Interpolation", {
   data <- list(power = 1.21)
   str <- whisker.render(template, data=data)
   
-  expect_equal("\"1.21 jiggawatts!\"", str, info="Decimals should interpolate seamlessly with proper significance.")
+  expect_equal(str, "\"1.21 jiggawatts!\"", label=deparse(str), info="Decimals should interpolate seamlessly with proper significance.")
 })
 
 test_that( "Ampersand Decimal Interpolation", {
@@ -125,7 +125,7 @@ test_that( "Ampersand Decimal Interpolation", {
   data <- list(power = 1.21)
   str <- whisker.render(template, data=data)
   
-  expect_equal("\"1.21 jiggawatts!\"", str, info="Decimals should interpolate seamlessly with proper significance.")
+  expect_equal(str, "\"1.21 jiggawatts!\"", label=deparse(str), info="Decimals should interpolate seamlessly with proper significance.")
 })
 
 test_that( "Basic Context Miss Interpolation", {
@@ -134,7 +134,7 @@ test_that( "Basic Context Miss Interpolation", {
   data <- list()
   str <- whisker.render(template, data=data)
   
-  expect_equal("I () be seen!", str, info="Failed context lookups should default to empty strings.")
+  expect_equal(str, "I () be seen!", label=deparse(str), info="Failed context lookups should default to empty strings.")
 })
 
 test_that( "Triple Mustache Context Miss Interpolation", {
@@ -143,7 +143,7 @@ test_that( "Triple Mustache Context Miss Interpolation", {
   data <- list()
   str <- whisker.render(template, data=data)
   
-  expect_equal("I () be seen!", str, info="Failed context lookups should default to empty strings.")
+  expect_equal(str, "I () be seen!", label=deparse(str), info="Failed context lookups should default to empty strings.")
 })
 
 test_that( "Ampersand Context Miss Interpolation", {
@@ -152,7 +152,7 @@ test_that( "Ampersand Context Miss Interpolation", {
   data <- list()
   str <- whisker.render(template, data=data)
   
-  expect_equal("I () be seen!", str, info="Failed context lookups should default to empty strings.")
+  expect_equal(str, "I () be seen!", label=deparse(str), info="Failed context lookups should default to empty strings.")
 })
 
 test_that( "Dotted Names - Basic Interpolation", {
@@ -161,7 +161,7 @@ test_that( "Dotted Names - Basic Interpolation", {
   data <- list(person = list(name = "Joe"))
   str <- whisker.render(template, data=data)
   
-  expect_equal("\"Joe\" == \"Joe\"", str, info="Dotted names should be considered a form of shorthand for sections.")
+  expect_equal(str, "\"Joe\" == \"Joe\"", label=deparse(str), info="Dotted names should be considered a form of shorthand for sections.")
 })
 
 test_that( "Dotted Names - Triple Mustache Interpolation", {
@@ -170,7 +170,7 @@ test_that( "Dotted Names - Triple Mustache Interpolation", {
   data <- list(person = list(name = "Joe"))
   str <- whisker.render(template, data=data)
   
-  expect_equal("\"Joe\" == \"Joe\"", str, info="Dotted names should be considered a form of shorthand for sections.")
+  expect_equal(str, "\"Joe\" == \"Joe\"", label=deparse(str), info="Dotted names should be considered a form of shorthand for sections.")
 })
 
 test_that( "Dotted Names - Ampersand Interpolation", {
@@ -179,7 +179,7 @@ test_that( "Dotted Names - Ampersand Interpolation", {
   data <- list(person = list(name = "Joe"))
   str <- whisker.render(template, data=data)
   
-  expect_equal("\"Joe\" == \"Joe\"", str, info="Dotted names should be considered a form of shorthand for sections.")
+  expect_equal(str, "\"Joe\" == \"Joe\"", label=deparse(str), info="Dotted names should be considered a form of shorthand for sections.")
 })
 
 test_that( "Dotted Names - Arbitrary Depth", {
@@ -188,7 +188,7 @@ test_that( "Dotted Names - Arbitrary Depth", {
   data <- list(a = list(b = list(c = list(d = list(e = list(name = "Phil"))))))
   str <- whisker.render(template, data=data)
   
-  expect_equal("\"Phil\" == \"Phil\"", str, info="Dotted names should be functional to any level of nesting.")
+  expect_equal(str, "\"Phil\" == \"Phil\"", label=deparse(str), info="Dotted names should be functional to any level of nesting.")
 })
 
 test_that( "Dotted Names - Broken Chains", {
@@ -197,7 +197,7 @@ test_that( "Dotted Names - Broken Chains", {
   data <- list(a = list())
   str <- whisker.render(template, data=data)
   
-  expect_equal("\"\" == \"\"", str, info="Any falsey value prior to the last part of the name should yield ''.")
+  expect_equal(str, "\"\" == \"\"", label=deparse(str), info="Any falsey value prior to the last part of the name should yield ''.")
 })
 
 test_that( "Dotted Names - Broken Chain Resolution", {
@@ -206,7 +206,7 @@ test_that( "Dotted Names - Broken Chain Resolution", {
   data <- list(a = list(b = list()), c = list(name = "Jim"))
   str <- whisker.render(template, data=data)
   
-  expect_equal("\"\" == \"\"", str, info="Each part of a dotted name should resolve only against its parent.")
+  expect_equal(str, "\"\" == \"\"", label=deparse(str), info="Each part of a dotted name should resolve only against its parent.")
 })
 
 test_that( "Dotted Names - Initial Resolution", {
@@ -216,7 +216,7 @@ test_that( "Dotted Names - Initial Resolution", {
     b = list(c = list(d = list(e = list(name = "Wrong")))))
   str <- whisker.render(template, data=data)
   
-  expect_equal("\"Phil\" == \"Phil\"", str, info="The first part of a dotted name should resolve as any other name.")
+  expect_equal(str, "\"Phil\" == \"Phil\"", label=deparse(str), info="The first part of a dotted name should resolve as any other name.")
 })
 
 test_that( "Interpolation - Surrounding Whitespace", {
@@ -225,7 +225,7 @@ test_that( "Interpolation - Surrounding Whitespace", {
   data <- list(string = "---")
   str <- whisker.render(template, data=data)
   
-  expect_equal("| --- |", str, info="Interpolation should not alter surrounding whitespace.")
+  expect_equal(str, "| --- |", label=deparse(str), info="Interpolation should not alter surrounding whitespace.")
 })
 
 test_that( "Triple Mustache - Surrounding Whitespace", {
@@ -234,7 +234,7 @@ test_that( "Triple Mustache - Surrounding Whitespace", {
   data <- list(string = "---")
   str <- whisker.render(template, data=data)
   
-  expect_equal("| --- |", str, info="Interpolation should not alter surrounding whitespace.")
+  expect_equal(str, "| --- |", label=deparse(str), info="Interpolation should not alter surrounding whitespace.")
 })
 
 test_that( "Ampersand - Surrounding Whitespace", {
@@ -243,7 +243,7 @@ test_that( "Ampersand - Surrounding Whitespace", {
   data <- list(string = "---")
   str <- whisker.render(template, data=data)
   
-  expect_equal("| --- |", str, info="Interpolation should not alter surrounding whitespace.")
+  expect_equal(str, "| --- |", label=deparse(str), info="Interpolation should not alter surrounding whitespace.")
 })
 
 test_that( "Interpolation - Standalone", {
@@ -252,7 +252,7 @@ test_that( "Interpolation - Standalone", {
   data <- list(string = "---")
   str <- whisker.render(template, data=data)
   
-  expect_equal("  ---\n", str, info="Standalone interpolation should not alter surrounding whitespace.")
+  expect_equal(str, "  ---\n", label=deparse(str), info="Standalone interpolation should not alter surrounding whitespace.")
 })
 
 test_that( "Triple Mustache - Standalone", {
@@ -261,7 +261,7 @@ test_that( "Triple Mustache - Standalone", {
   data <- list(string = "---")
   str <- whisker.render(template, data=data)
   
-  expect_equal("  ---\n", str, info="Standalone interpolation should not alter surrounding whitespace.")
+  expect_equal(str, "  ---\n", label=deparse(str), info="Standalone interpolation should not alter surrounding whitespace.")
 })
 
 test_that( "Ampersand - Standalone", {
@@ -270,7 +270,7 @@ test_that( "Ampersand - Standalone", {
   data <- list(string = "---")
   str <- whisker.render(template, data=data)
   
-  expect_equal("  ---\n", str, info="Standalone interpolation should not alter surrounding whitespace.")
+  expect_equal(str, "  ---\n", label=deparse(str), info="Standalone interpolation should not alter surrounding whitespace.")
 })
 
 test_that( "Interpolation With Padding", {
@@ -279,7 +279,7 @@ test_that( "Interpolation With Padding", {
   data <- list(string = "---")
   str <- whisker.render(template, data=data)
   
-  expect_equal("|---|", str, info="Superfluous in-tag whitespace should be ignored.")
+  expect_equal(str, "|---|", label=deparse(str), info="Superfluous in-tag whitespace should be ignored.")
 })
 
 test_that( "Triple Mustache With Padding", {
@@ -288,7 +288,7 @@ test_that( "Triple Mustache With Padding", {
   data <- list(string = "---")
   str <- whisker.render(template, data=data)
   
-  expect_equal("|---|", str, info="Superfluous in-tag whitespace should be ignored.")
+  expect_equal(str, "|---|", label=deparse(str), info="Superfluous in-tag whitespace should be ignored.")
 })
 
 test_that( "Ampersand With Padding", {
@@ -297,6 +297,6 @@ test_that( "Ampersand With Padding", {
   data <- list(string = "---")
   str <- whisker.render(template, data=data)
   
-  expect_equal("|---|", str, info="Superfluous in-tag whitespace should be ignored.")
+  expect_equal(str, "|---|", label=deparse(str), info="Superfluous in-tag whitespace should be ignored.")
 })
 

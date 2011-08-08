@@ -16,9 +16,22 @@ processSection <- function(value, context, texts, keys, renders){
    if (isFalsey(value)){
      return()
    }
-   if (is.list(value)){
-     context <- c(list(value), context)
+   
+   if (is.list(value) || is.vector(value)){
+     if (is.null(names(value))){
+       str <- sapply( value
+                    , function(item){
+                       context <- c(list(as.list(item)), context)
+                       values <- lapply(keys, resolve, context=context)
+                       renderTemplate(values, context, texts, renders)                  
+                      }
+                    )
+       return(paste(str, collapse=""))
+     } else {
+       context <- c(list(value), context)
+     }
    }
-   values <- lapply(X=keys, FUN=resolve, context=context)
+   
+   values <- lapply(keys, resolve, context=context)
    return(renderTemplate(values, context, texts, renders))
 }

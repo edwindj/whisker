@@ -17,7 +17,7 @@ test_that( "Inline", {
   data <- list()
   str <- whisker.render(template, data=data)
   
-  expect_equal("1234567890", str, info="Comment blocks should be removed from the template.")
+  expect_equal(str, "1234567890", label=deparse(str), info="Comment blocks should be removed from the template.")
 })
 
 test_that( "Multiline", {
@@ -26,7 +26,7 @@ test_that( "Multiline", {
   data <- list()
   str <- whisker.render(template, data=data)
   
-  expect_equal("1234567890\n", str, info="Multiline comments should be permitted.")
+  expect_equal(str, "1234567890\n", label=deparse(str), info="Multiline comments should be permitted.")
 })
 
 test_that( "Standalone", {
@@ -35,7 +35,7 @@ test_that( "Standalone", {
   data <- list()
   str <- whisker.render(template, data=data)
   
-  expect_equal("Begin.\nEnd.\n", str, info="All standalone comment lines should be removed.")
+  expect_equal(str, "Begin.\nEnd.\n", label=deparse(str), info="All standalone comment lines should be removed.")
 })
 
 test_that( "Indented Standalone", {
@@ -44,7 +44,7 @@ test_that( "Indented Standalone", {
   data <- list()
   str <- whisker.render(template, data=data)
   
-  expect_equal("Begin.\nEnd.\n", str, info="All standalone comment lines should be removed.")
+  expect_equal(str, "Begin.\nEnd.\n", label=deparse(str), info="All standalone comment lines should be removed.")
 })
 
 test_that( "Standalone Line Endings", {
@@ -53,7 +53,7 @@ test_that( "Standalone Line Endings", {
   data <- list()
   str <- whisker.render(template, data=data)
   
-  expect_equal("|\r\n|", str, info="\"\\r\\n\" should be considered a newline for standalone tags.")
+  expect_equal(str, "|\r\n|", label=deparse(str), info="\"\\r\\n\" should be considered a newline for standalone tags.")
 })
 
 test_that( "Standalone Without Previous Line", {
@@ -62,7 +62,7 @@ test_that( "Standalone Without Previous Line", {
   data <- list()
   str <- whisker.render(template, data=data)
   
-  expect_equal("!", str, info="Standalone tags should not require a newline to precede them.")
+  expect_equal(str, "!", label=deparse(str), info="Standalone tags should not require a newline to precede them.")
 })
 
 test_that( "Standalone Without Newline", {
@@ -71,7 +71,7 @@ test_that( "Standalone Without Newline", {
   data <- list()
   str <- whisker.render(template, data=data)
   
-  expect_equal("!\n", str, info="Standalone tags should not require a newline to follow them.")
+  expect_equal(str, "!\n", label=deparse(str), info="Standalone tags should not require a newline to follow them.")
 })
 
 test_that( "Multiline Standalone", {
@@ -80,7 +80,7 @@ test_that( "Multiline Standalone", {
   data <- list()
   str <- whisker.render(template, data=data)
   
-  expect_equal("Begin.\nEnd.\n", str, info="All standalone comment lines should be removed.")
+  expect_equal(str, "Begin.\nEnd.\n", label=deparse(str), info="All standalone comment lines should be removed.")
 })
 
 test_that( "Indented Multiline Standalone", {
@@ -89,7 +89,7 @@ test_that( "Indented Multiline Standalone", {
   data <- list()
   str <- whisker.render(template, data=data)
   
-  expect_equal("Begin.\nEnd.\n", str, info="All standalone comment lines should be removed.")
+  expect_equal(str, "Begin.\nEnd.\n", label=deparse(str), info="All standalone comment lines should be removed.")
 })
 
 test_that( "Indented Inline", {
@@ -98,7 +98,7 @@ test_that( "Indented Inline", {
   data <- list()
   str <- whisker.render(template, data=data)
   
-  expect_equal("  12 \n", str, info="Inline comments should not strip whitespace")
+  expect_equal(str, "  12 \n", label=deparse(str), info="Inline comments should not strip whitespace")
 })
 
 test_that( "Surrounding Whitespace", {
@@ -107,6 +107,6 @@ test_that( "Surrounding Whitespace", {
   data <- list()
   str <- whisker.render(template, data=data)
   
-  expect_equal("12345  67890", str, info="Comment removal should preserve surrounding whitespace.")
+  expect_equal(str, "12345  67890", label=deparse(str), info="Comment removal should preserve surrounding whitespace.")
 })
 

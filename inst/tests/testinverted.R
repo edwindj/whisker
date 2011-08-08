@@ -44,7 +44,7 @@ test_that( "Falsey", {
   data <- list(boolean = FALSE)
   str <- whisker.render(template, data=data)
   
-  expect_equal("\"This should be rendered.\"", str, info="Falsey sections should have their contents rendered.")
+  expect_equal(str, "\"This should be rendered.\"", label=deparse(str), info="Falsey sections should have their contents rendered.")
 })
 
 test_that( "Truthy", {
@@ -53,7 +53,7 @@ test_that( "Truthy", {
   data <- list(boolean = TRUE)
   str <- whisker.render(template, data=data)
   
-  expect_equal("\"\"", str, info="Truthy sections should have their contents omitted.")
+  expect_equal(str, "\"\"", label=deparse(str), info="Truthy sections should have their contents omitted.")
 })
 
 test_that( "Context", {
@@ -62,7 +62,7 @@ test_that( "Context", {
   data <- list(context = list(name = "Joe"))
   str <- whisker.render(template, data=data)
   
-  expect_equal("\"\"", str, info="Objects and hashes should behave like truthy values.")
+  expect_equal(str, "\"\"", label=deparse(str), info="Objects and hashes should behave like truthy values.")
 })
 
 test_that( "List", {
@@ -71,7 +71,7 @@ test_that( "List", {
   data <- list(list = list(list(n = 1), list(n = 2), list(n = 3)))
   str <- whisker.render(template, data=data)
   
-  expect_equal("\"\"", str, info="Lists should behave like truthy values.")
+  expect_equal(str, "\"\"", label=deparse(str), info="Lists should behave like truthy values.")
 })
 
 test_that( "Empty List", {
@@ -80,7 +80,7 @@ test_that( "Empty List", {
   data <- list(list = list())
   str <- whisker.render(template, data=data)
   
-  expect_equal("\"Yay lists!\"", str, info="Empty lists should behave like falsey values.")
+  expect_equal(str, "\"Yay lists!\"", label=deparse(str), info="Empty lists should behave like falsey values.")
 })
 
 test_that( "Doubled", {
@@ -89,7 +89,7 @@ test_that( "Doubled", {
   data <- list(two = "second", bool = FALSE)
   str <- whisker.render(template, data=data)
   
-  expect_equal("* first\n* second\n* third\n", str, info="Multiple inverted sections per template should be permitted.")
+  expect_equal(str, "* first\n* second\n* third\n", label=deparse(str), info="Multiple inverted sections per template should be permitted.")
 })
 
 test_that( "Nested (Falsey)", {
@@ -98,7 +98,7 @@ test_that( "Nested (Falsey)", {
   data <- list(bool = FALSE)
   str <- whisker.render(template, data=data)
   
-  expect_equal("| A B C D E |", str, info="Nested falsey sections should have their contents rendered.")
+  expect_equal(str, "| A B C D E |", label=deparse(str), info="Nested falsey sections should have their contents rendered.")
 })
 
 test_that( "Nested (Truthy)", {
@@ -107,7 +107,7 @@ test_that( "Nested (Truthy)", {
   data <- list(bool = TRUE)
   str <- whisker.render(template, data=data)
   
-  expect_equal("| A  E |", str, info="Nested truthy sections should be omitted.")
+  expect_equal(str, "| A  E |", label=deparse(str), info="Nested truthy sections should be omitted.")
 })
 
 test_that( "Context Misses", {
@@ -116,7 +116,7 @@ test_that( "Context Misses", {
   data <- list()
   str <- whisker.render(template, data=data)
   
-  expect_equal("[Cannot find key 'missing'!]", str, info="Failed context lookups should be considered falsey.")
+  expect_equal(str, "[Cannot find key 'missing'!]", label=deparse(str), info="Failed context lookups should be considered falsey.")
 })
 
 test_that( "Dotted Names - Truthy", {
@@ -125,7 +125,7 @@ test_that( "Dotted Names - Truthy", {
   data <- list(a = list(b = list(c = TRUE)))
   str <- whisker.render(template, data=data)
   
-  expect_equal("\"\" == \"\"", str, info="Dotted names should be valid for Inverted Section tags.")
+  expect_equal(str, "\"\" == \"\"", label=deparse(str), info="Dotted names should be valid for Inverted Section tags.")
 })
 
 test_that( "Dotted Names - Falsey", {
@@ -134,7 +134,7 @@ test_that( "Dotted Names - Falsey", {
   data <- list(a = list(b = list(c = FALSE)))
   str <- whisker.render(template, data=data)
   
-  expect_equal("\"Not Here\" == \"Not Here\"", str, info="Dotted names should be valid for Inverted Section tags.")
+  expect_equal(str, "\"Not Here\" == \"Not Here\"", label=deparse(str), info="Dotted names should be valid for Inverted Section tags.")
 })
 
 test_that( "Dotted Names - Broken Chains", {
@@ -143,7 +143,7 @@ test_that( "Dotted Names - Broken Chains", {
   data <- list(a = list())
   str <- whisker.render(template, data=data)
   
-  expect_equal("\"Not Here\" == \"Not Here\"", str, info="Dotted names that cannot be resolved should be considered falsey.")
+  expect_equal(str, "\"Not Here\" == \"Not Here\"", label=deparse(str), info="Dotted names that cannot be resolved should be considered falsey.")
 })
 
 test_that( "Surrounding Whitespace", {
@@ -152,7 +152,7 @@ test_that( "Surrounding Whitespace", {
   data <- list(boolean = FALSE)
   str <- whisker.render(template, data=data)
   
-  expect_equal(" | \t|\t | \n", str, info="Inverted sections should not alter surrounding whitespace.")
+  expect_equal(str, " | \t|\t | \n", label=deparse(str), info="Inverted sections should not alter surrounding whitespace.")
 })
 
 test_that( "Internal Whitespace", {
@@ -161,7 +161,7 @@ test_that( "Internal Whitespace", {
   data <- list(boolean = FALSE)
   str <- whisker.render(template, data=data)
   
-  expect_equal(" |  \n  | \n", str, info="Inverted should not alter internal whitespace.")
+  expect_equal(str, " |  \n  | \n", label=deparse(str), info="Inverted should not alter internal whitespace.")
 })
 
 test_that( "Indented Inline Sections", {
@@ -170,7 +170,7 @@ test_that( "Indented Inline Sections", {
   data <- list(boolean = FALSE)
   str <- whisker.render(template, data=data)
   
-  expect_equal(" NO\n WAY\n", str, info="Single-line sections should not alter surrounding whitespace.")
+  expect_equal(str, " NO\n WAY\n", label=deparse(str), info="Single-line sections should not alter surrounding whitespace.")
 })
 
 test_that( "Standalone Lines", {
@@ -179,7 +179,7 @@ test_that( "Standalone Lines", {
   data <- list(boolean = FALSE)
   str <- whisker.render(template, data=data)
   
-  expect_equal("| This Is\n|\n| A Line\n", str, info="Standalone lines should be removed from the template.")
+  expect_equal(str, "| This Is\n|\n| A Line\n", label=deparse(str), info="Standalone lines should be removed from the template.")
 })
 
 test_that( "Standalone Indented Lines", {
@@ -188,7 +188,7 @@ test_that( "Standalone Indented Lines", {
   data <- list(boolean = FALSE)
   str <- whisker.render(template, data=data)
   
-  expect_equal("| This Is\n|\n| A Line\n", str, info="Standalone indented lines should be removed from the template.")
+  expect_equal(str, "| This Is\n|\n| A Line\n", label=deparse(str), info="Standalone indented lines should be removed from the template.")
 })
 
 test_that( "Standalone Line Endings", {
@@ -197,7 +197,7 @@ test_that( "Standalone Line Endings", {
   data <- list(boolean = FALSE)
   str <- whisker.render(template, data=data)
   
-  expect_equal("|\r\n|", str, info="\"\\r\\n\" should be considered a newline for standalone tags.")
+  expect_equal(str, "|\r\n|", label=deparse(str), info="\"\\r\\n\" should be considered a newline for standalone tags.")
 })
 
 test_that( "Standalone Without Previous Line", {
@@ -206,7 +206,7 @@ test_that( "Standalone Without Previous Line", {
   data <- list(boolean = FALSE)
   str <- whisker.render(template, data=data)
   
-  expect_equal("^\n/", str, info="Standalone tags should not require a newline to precede them.")
+  expect_equal(str, "^\n/", label=deparse(str), info="Standalone tags should not require a newline to precede them.")
 })
 
 test_that( "Standalone Without Newline", {
@@ -215,7 +215,7 @@ test_that( "Standalone Without Newline", {
   data <- list(boolean = FALSE)
   str <- whisker.render(template, data=data)
   
-  expect_equal("^\n/\n", str, info="Standalone tags should not require a newline to follow them.")
+  expect_equal(str, "^\n/\n", label=deparse(str), info="Standalone tags should not require a newline to follow them.")
 })
 
 test_that( "Padding", {
@@ -224,6 +224,6 @@ test_that( "Padding", {
   data <- list(boolean = FALSE)
   str <- whisker.render(template, data=data)
   
-  expect_equal("|=|", str, info="Superfluous in-tag whitespace should be ignored.")
+  expect_equal(str, "|=|", label=deparse(str), info="Superfluous in-tag whitespace should be ignored.")
 })
 

@@ -22,9 +22,16 @@ testtemplate <-
   #{{&desc}}
   template <- {{&template}}
   data <- {{&data}}
+
+{{#partials}}
+  partials <- {{&partials}}
+  str <- whisker.render(template, partials=partials, data=data)
+{{/partials}}
+{{^partials}}
   str <- whisker.render(template, data=data)
+{{/partials}}
   
-  expect_equal({{&expected}}, str, info={{&desc}})
+  expect_equal(str, {{&expected}}, label=deparse(str), info={{&desc}})
 })
 "
 
@@ -59,7 +66,7 @@ spec <- c( "interpolation.json"
          , "comments.json"
          , "inverted.json"
          , "sections.json"
-         #, "partials.json"
+         , "partials.json"
          #, "delimiters.json"
          #, "lambdas.json"
          )

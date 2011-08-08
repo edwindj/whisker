@@ -10,7 +10,7 @@ COMMENT <- "!.+?"
 #keytypes
 keytypes <- c("", "{}", "&", "#", "^", "/", ">")
 
-parseTemplate <- function(template, debug=FALSE){
+parseTemplate <- function(template, partials=list(), debug=FALSE){
   #TODO add delimiter switching
   delim <- strsplit("{{ }}"," ")[[1]]
   
@@ -68,8 +68,9 @@ parseTemplate <- function(template, debug=FALSE){
                                   ) 
                         )
        } else if (type == ">"){
+         render[i] <- renderEmpty
          #partial
-       stop("Partials not (yet) supported")
+         stop("Partials not (yet) supported")
      } 
   }
   if (length(stack) > 1){
@@ -122,9 +123,9 @@ inlineStandAlone <- function(text, DELIM, keyregexp, end=FALSE){
    dKEY <- paste(DELIM[1],keyregexp, DELIM[2], sep="")
    
    #remove stand alone comment lines
-   re <- paste("(^|\n)\\s*?(",dKEY,")\\s*?(\n|$)", sep="")
+   re <- paste("(^|\r?\n)\\s*?(",dKEY,")\\s*?(\n|$)", sep="")
    if (end)
-     gsub(re, "\\2\\4",  text)
+     gsub(re, "\\1\\2",  text)
    else
      gsub(re, "\\1\\2",  text)     
 }

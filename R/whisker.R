@@ -1,13 +1,14 @@
 #' Logicless templating
 #'
 #' @param template \code{character} with template text
-#' @param data named \code{list} or env
+#' @param data named \code{list} or env with variable that will be used during rendering
+#' @param partials named \code{list} with partial templates, will be used during template contruction
 #' @return \code{character} with rendered template
 #' @rdname whisker.render
 #' @example example/whisker_render.R
 #' @export
-whisker.render <- function(template, data=parent.frame(), debug=FALSE){
-   tmpl <- parseTemplate(template, debug=debug)
+whisker.render <- function(template, data=parent.frame(), partials=list(), debug=FALSE){
+   tmpl <- parseTemplate(template, partials=partials, debug=debug)
    context <- list(data)
    
    values <- lapply(tmpl$keys, resolve, context=context)
@@ -57,6 +58,10 @@ renderHTML <- function(x, context){
   renderText(whisker.escape(x))
 }
 
+renderEmpty <- function(x, context){
+  "hi"
+}
+
 renderTemplate <- function(values, context, texts, renders, debug=FALSE){
    
    s <- mapply(values, renders, FUN=function(value, render){
@@ -73,6 +78,7 @@ renderTemplate <- function(values, context, texts, renders, debug=FALSE){
    
    do.call(paste, str)
 }
+
 
 #' escape basic HTML characters
 #'
