@@ -21,5 +21,7 @@ Usage
 
 ###render
 
+`whisker.render` accepts a `character`
+
 ###escape
 
