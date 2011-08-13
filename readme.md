@@ -7,6 +7,15 @@ Mustache are logicless templates, that can be used unchanged in many programming
 Installation
 ============
 
+Whisker is not (yet) available from CRAN but can be installed from github
+
+```
+library(devtools)
+
+#dev_mode()
+install_github("whisker", "edwindj")
+```
+
 Usage
 -----
 
