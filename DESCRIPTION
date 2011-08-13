@@ -16,5 +16,6 @@ Collate:
     'parseTemplate.R'
     'partials.R'
     'inverted.R'
+    'pkg.R'
 Depends:
     

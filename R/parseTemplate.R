@@ -4,7 +4,7 @@ AMPERSAND <- "^&(.+)"
 SECTION <- "\\#(.+?)"
 INVERTEDSECTION <- "\\^(.+?)"
 ENDSECTION <- "/(.+?)"
-PARTIAL <- "\\\\>(.+?)"
+PARTIAL <- ">(.+?)"
 COMMENT <- "!.+?"
 
 #keytypes

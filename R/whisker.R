@@ -5,7 +5,7 @@
 #' @param partials named \code{list} with partial templates, will be used during template contruction
 #' @return \code{character} with rendered template
 #' @rdname whisker.render
-#' @example example/whisker_render.R
+#' @example examples/whisker_render.R
 #' @export
 whisker.render <- function(template, data=parent.frame(), partials=list(), debug=FALSE){
    tmpl <- parseTemplate(template, partials=partials, debug=debug)
