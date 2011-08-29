@@ -12,20 +12,15 @@ partial <- function(key, partials){
     # remove key, because of possible infinite recursion
     partials[[key]] <- NULL
     template <- parseTemplate(template, partials)
+    
     partials[[key]] <- template
   }
    
   renderPartial <- function(value, context){
-    # value is not used, since a partial has no value
+    # value is not used, since a partial has no value  
+    tmpl <- partials[[key]]
     
-    tmpl <- partials[[key]]    
-    values <- lapply(tmpl$keys, resolve, context=context)
-    return( renderTemplate( values=values
-                          , context=context
-                          , texts=tmpl$texts
-                          , renders=tmpl$renders
-                          )
-          )
+    return(tmpl(context=context))
   }
   
   renderPartial

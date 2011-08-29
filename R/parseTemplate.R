@@ -20,7 +20,6 @@ parseTemplate <- function(template, partials=list(), debug=FALSE){
   template <- removeComments(template, DELIM)
   template <- inlineStandAlone(template, DELIM, SECTION)
   indent <- getIndent(template, DELIM, PARTIAL)
-  print(list(indent=indent, template=template))
   template <- inlineStandAlone(template, DELIM, PARTIAL, indent=TRUE)
   template <- inlineStandAlone(template, DELIM, INVERTEDSECTION)
   template <- inlineStandAlone(template, DELIM, ENDSECTION)
@@ -82,27 +81,22 @@ parseTemplate <- function(template, partials=list(), debug=FALSE){
   
   exclude <- insection > 0
   keys <- key$key[!exclude]
-  text <- text[c(!exclude, TRUE)[seq_along(text)]] # only select text that is needed
-  render <- render[!exclude]
+  texts <- text[c(!exclude, TRUE)[seq_along(text)]] # only select text that is needed
+  renders <- render[!exclude]
   
-#   compiled <- function(data=list(), context=list(data)){
-#     values <- lapply(keys, resolve, context=context)
-#     keyinfo <- key
-#     renderTemplate( values=values
-#                   , context=context
-#                   , texts=tmpl$texts
-#                   , renders=tmpl$renders
-#                   , debug=debug
-#                   )
-#   }
+  compiled <- function(data=list(), context=list(data)){
+    values <- lapply(keys, resolve, context=context)
+    keyinfo <- key
+    renderTemplate( values=values
+                  , context=context
+                  , texts=texts
+                  , renders=renders
+                  , debug=debug
+                  )
+  }
   
-  structure( list( texts=text
-                 , keys=keys
-                 , renders=render
-                 , keyinfo = key  #debugging purposes
-                 )
-            , class="template"
-            )
+  class(compiled) <- "template"
+  compiled
 }
 
 getKeyInfo <- function(template, KEY){

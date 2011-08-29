@@ -8,26 +8,13 @@
 #' @rdname whisker.render
 #' @example examples/whisker_render.R
 #' @export
-whisker.render <- function(template, data=parent.frame(), partials=list(), debug=FALSE){
+whisker.render <- function( template
+                          , data = parent.frame()
+                          , partials = list()
+                          , debug = FALSE
+                          ){
    tmpl <- parseTemplate(template, partials=list2env(partials), debug=debug)
-   context <- list(data)
-   
-   values <- lapply(tmpl$keys, resolve, context=context)
-   if(debug) print(list( whisker.render=values
-                       , keyinfo=tmpl$keyinfo
-                       , context=context
-                       , data=data
-                       , keys=tmpl$keys
-                       )
-                  )
-   
-   return( renderTemplate( values=values
-                         , context=context
-                         , texts=tmpl$texts
-                         , renders=tmpl$renders
-                         , debug=debug
-                         )
-          )
+   return(tmpl(data))
 }
 
 # TODO change this into whisker...
@@ -114,6 +101,11 @@ resolve <- function(tag, context, debug=FALSE){
   }
 }
 
+#' is a value falsey according to Mustache specifications?
+#' 
+#' This function is used to test a value before rendering
+#' @param x value
+#' @return TRUE if falsey, otherwise FALSE
 isFalsey <- function(x){
   ( NROW(x)==0
  || (is.logical(x) && !x[1])
