@@ -3,12 +3,13 @@
 #' @param template \code{character} with template text
 #' @param data named \code{list} or env with variable that will be used during rendering
 #' @param partials named \code{list} with partial templates, will be used during template contruction
+#' @param debug Used for debugging purposes, likely to disappear
 #' @return \code{character} with rendered template
 #' @rdname whisker.render
 #' @example examples/whisker_render.R
 #' @export
 whisker.render <- function(template, data=parent.frame(), partials=list(), debug=FALSE){
-   tmpl <- parseTemplate(template, partials=partials, debug=debug)
+   tmpl <- parseTemplate(template, partials=list2env(partials), debug=debug)
    context <- list(data)
    
    values <- lapply(tmpl$keys, resolve, context=context)
@@ -16,8 +17,9 @@ whisker.render <- function(template, data=parent.frame(), partials=list(), debug
                        , keyinfo=tmpl$keyinfo
                        , context=context
                        , data=data
-                       , keys=tmpl$keys)
+                       , keys=tmpl$keys
                        )
+                  )
    
    return( renderTemplate( values=values
                          , context=context
@@ -27,10 +29,6 @@ whisker.render <- function(template, data=parent.frame(), partials=list(), debug
                          )
           )
 }
-
-#' @rdname whisker.render
-#' @export
-whisker <- whisker.render
 
 # TODO change this into whisker...
 whisker.future <- function( infile=stdin()
@@ -73,6 +71,7 @@ renderTemplate <- function(values, context, texts, renders, debug=FALSE){
    str <- character()
    str[sqt] <- texts
    str[sqk] <- s
+#   paste(str, collapse="", sep="")
    str <- as.list(str)
    str["sep"] <- ""
    
@@ -94,7 +93,7 @@ whisker.escape <- function(x){
   x
 }
   
-resolve <- function(tag, context, debug=TRUE){
+resolve <- function(tag, context, debug=FALSE){
   if (tag=="."){
     return(context[[1]])
   }

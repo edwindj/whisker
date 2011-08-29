@@ -9,7 +9,7 @@
 # Comment tags SHOULD be treated as standalone when appropriate.
 # 
 library(testthat)
-context('comments')
+context('Spec v1.1, comments')
 
 test_that( "Inline", {
   #"Comment blocks should be removed from the template."

@@ -37,7 +37,7 @@
 # appropriate.
 # 
 library(testthat)
-context('sections')
+context('Spec v1.1, sections')
 
 test_that( "Truthy", {
   #"Truthy sections should have their contents rendered."

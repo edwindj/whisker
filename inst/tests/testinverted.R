@@ -36,7 +36,7 @@
 # appropriate.
 # 
 library(testthat)
-context('inverted')
+context('Spec v1.1, inverted')
 
 test_that( "Falsey", {
   #"Falsey sections should have their contents rendered."

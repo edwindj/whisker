@@ -19,8 +19,11 @@ parseTemplate <- function(template, partials=list(), debug=FALSE){
   template <- paste(template, collapse="\n")
   template <- removeComments(template, DELIM)
   template <- inlineStandAlone(template, DELIM, SECTION)
+  indent <- getIndent(template, DELIM, PARTIAL)
+  print(list(indent=indent, template=template))
+  template <- inlineStandAlone(template, DELIM, PARTIAL, indent=TRUE)
   template <- inlineStandAlone(template, DELIM, INVERTEDSECTION)
-  template <- inlineStandAlone(template, DELIM, ENDSECTION, end=TRUE)
+  template <- inlineStandAlone(template, DELIM, ENDSECTION)
  
   KEY <- paste(DELIM[1],"(.+?)", DELIM[2], sep="")
   
@@ -68,9 +71,9 @@ parseTemplate <- function(template, partials=list(), debug=FALSE){
                                   ) 
                         )
        } else if (type == ">"){
-         render[i] <- renderEmpty
          #partial
-         stop("Partials not (yet) supported")
+         #render[i] <- list(renderEmpty)
+         render[i] <- list(partial(key$key[i], partials))
      } 
   }
   if (length(stack) > 1){
@@ -81,6 +84,17 @@ parseTemplate <- function(template, partials=list(), debug=FALSE){
   keys <- key$key[!exclude]
   text <- text[c(!exclude, TRUE)[seq_along(text)]] # only select text that is needed
   render <- render[!exclude]
+  
+#   compiled <- function(data=list(), context=list(data)){
+#     values <- lapply(keys, resolve, context=context)
+#     keyinfo <- key
+#     renderTemplate( values=values
+#                   , context=context
+#                   , texts=tmpl$texts
+#                   , renders=tmpl$renders
+#                   , debug=debug
+#                   )
+#   }
   
   structure( list( texts=text
                  , keys=keys
@@ -119,15 +133,27 @@ getKeyInfo <- function(template, KEY){
   key
 }
 
-inlineStandAlone <- function(text, DELIM, keyregexp, end=FALSE){
+inlineStandAlone <- function(text, DELIM, keyregexp, indent=FALSE){
+   # remove groups from regexp
+   keyregexp <- gsub("\\(|\\)","",keyregexp)
+   
    dKEY <- paste(DELIM[1],keyregexp, DELIM[2], sep="")
    
-   #remove stand alone comment lines
-   re <- paste("(^|\r?\n)\\s*?(",dKEY,")\\s*?(\n|$)", sep="")
-   if (end)
-     gsub(re, "\\1\\2",  text)
-   else
-     gsub(re, "\\1\\2",  text)     
+   re <- paste("(^|\n)([ \t]*)(",dKEY,")\\s*?(\n|$)", sep="")
+   if (indent) gsub(re, "\\1\\2\\3",  text)
+   else gsub(re, "\\1\\3",  text)
+}
+
+getIndent <- function(text, DELIM, keyregexp){
+   # remove groups from regexp
+   keyregexp <- gsub("\\(|\\)","",keyregexp)   
+   dKEY <- paste(DELIM[1],keyregexp, DELIM[2], sep="")
+   
+   re <- paste("(^|\n)([ \t]*)",dKEY,"\\s*?(\n|$)", sep="")
+   first <- gregexpr(re, text)[[1]]
+   last <- attr(first, "match.length") + first - 1
+   indent <- substring(text, first, last)
+   sub(re, "\\2", indent)
 }
 
 removeComments <- function(text, DELIM){

@@ -9,13 +9,12 @@
 library(rjson)
 library(whisker)
 
-
 header <- 
 "# Automatically generated from specification file: '{{file}}'
 #
 {{overview}}
 library(testthat)
-context('{{type}}')
+context('Spec v1.1, {{type}}')
 "
 testtemplate <- 
 "test_that( {{&name}}, {

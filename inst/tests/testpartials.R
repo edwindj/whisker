@@ -15,7 +15,7 @@
 # indentation, and prepended to each line of the partial before rendering.
 # 
 library(testthat)
-context('partials')
+context('Spec v1.1, partials')
 
 test_that( "Basic Behavior", {
   #"The greater-than operator should expand to the named partial."

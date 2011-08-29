@@ -1,3 +1,2 @@
-export(whisker)
 export(whisker.escape)
 export(whisker.render)

@@ -27,7 +27,7 @@
 # The Interpolation tags MUST NOT be treated as standalone.
 # 
 library(testthat)
-context('interpolation')
+context('Spec v1.1, interpolation')
 
 test_that( "No Interpolation", {
   #"Mustache-free templates should render as-is."
