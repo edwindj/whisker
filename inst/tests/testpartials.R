@@ -21,6 +21,7 @@ test_that( "Basic Behavior", {
   #"The greater-than operator should expand to the named partial."
   template <- "\"{{>text}}\""
   data <- list()
+
   partials <- list(text = "from partial")
   str <- whisker.render(template, partials=partials, data=data)
   
@@ -31,6 +32,7 @@ test_that( "Context", {
   #"The greater-than operator should operate within the current context."
   template <- "\"{{>partial}}\""
   data <- list(text = "content")
+
   partials <- list(partial = "*{{text}}*")
   str <- whisker.render(template, partials=partials, data=data)
   
@@ -41,6 +43,7 @@ test_that( "Recursion", {
   #"The greater-than operator should properly recurse."
   template <- "{{>node}}"
   data <- list(content = "X", nodes = list(list(content = "Y", nodes = list())))
+
   partials <- list(node = "{{content}}<{{#nodes}}{{>node}}{{/nodes}}>")
   str <- whisker.render(template, partials=partials, data=data)
   
@@ -51,6 +54,7 @@ test_that( "Surrounding Whitespace", {
   #"The greater-than operator should not alter surrounding whitespace."
   template <- "| {{>partial}} |"
   data <- list()
+
   partials <- list(partial = "\t|\t")
   str <- whisker.render(template, partials=partials, data=data)
   
@@ -61,6 +65,7 @@ test_that( "Inline Indentation", {
   #"Whitespace should be left untouched."
   template <- "  {{data}}  {{> partial}}\n"
   data <- list(data = "|")
+
   partials <- list(partial = ">\n>")
   str <- whisker.render(template, partials=partials, data=data)
   
@@ -71,6 +76,7 @@ test_that( "Standalone Line Endings", {
   #"\"\\r\\n\" should be considered a newline for standalone tags."
   template <- "|\r\n{{>partial}}\r\n|"
   data <- list()
+
   partials <- list(partial = ">")
   str <- whisker.render(template, partials=partials, data=data)
   
@@ -81,6 +87,7 @@ test_that( "Standalone Without Previous Line", {
   #"Standalone tags should not require a newline to precede them."
   template <- "  {{>partial}}\n>"
   data <- list()
+
   partials <- list(partial = ">\n>")
   str <- whisker.render(template, partials=partials, data=data)
   
@@ -91,6 +98,7 @@ test_that( "Standalone Without Newline", {
   #"Standalone tags should not require a newline to follow them."
   template <- ">\n  {{>partial}}"
   data <- list()
+
   partials <- list(partial = ">\n>")
   str <- whisker.render(template, partials=partials, data=data)
   
@@ -101,6 +109,7 @@ test_that( "Standalone Indentation", {
   #"Each line of the partial should be indented before rendering."
   template <- "\\\n {{>partial}}\n/\n"
   data <- list(content = "<\n->")
+
   partials <- list(partial = "|\n{{{content}}}\n|\n")
   str <- whisker.render(template, partials=partials, data=data)
   
@@ -111,6 +120,7 @@ test_that( "Padding Whitespace", {
   #"Superfluous in-tag whitespace should be ignored."
   template <- "|{{> partial }}|"
   data <- list(boolean = TRUE)
+
   partials <- list(partial = "[]")
   str <- whisker.render(template, partials=partials, data=data)
   

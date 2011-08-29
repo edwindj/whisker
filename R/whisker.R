@@ -101,7 +101,7 @@ resolve <- function(tag, context, debug=FALSE){
   }
 }
 
-#' is a value falsey according to Mustache specifications?
+#' Is a value falsey according to Mustache specifications?
 #' 
 #' This function is used to test a value before rendering
 #' @param x value

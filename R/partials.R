@@ -1,4 +1,4 @@
-partial <- function(key, partials){
+partial <- function(key, partials, indent=""){
   force(key)
   force(partials)
 
@@ -13,9 +13,13 @@ partial <- function(key, partials){
     partials[[key]] <- NULL
     template <- parseTemplate(template, partials)
     
+    #indent the partial template
+    env <- environment(template)
+    env$texts <- gsub("(\n)", paste("\\1", indent, sep=""), env$texts)
+    
     partials[[key]] <- template
   }
-   
+  
   renderPartial <- function(value, context){
     # value is not used, since a partial has no value  
     tmpl <- partials[[key]]

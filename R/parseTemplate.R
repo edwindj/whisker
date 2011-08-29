@@ -1,9 +1,9 @@
 #key type regexpr
 TRIPLE <- "^\\{(.+)\\}"
 AMPERSAND <- "^&(.+)"
-SECTION <- "\\#(.+?)"
-INVERTEDSECTION <- "\\^(.+?)"
-ENDSECTION <- "/(.+?)"
+SECTION <- "\\#([ A-z0-9.]+)"
+INVERTEDSECTION <- "\\^([ A-z0-9.]+)"
+ENDSECTION <- "/([ A-z0-9.]+)"
 PARTIAL <- ">(.+?)"
 COMMENT <- "!.+?"
 
@@ -18,11 +18,12 @@ parseTemplate <- function(template, partials=list(), debug=FALSE){
   
   template <- paste(template, collapse="\n")
   template <- removeComments(template, DELIM)
-  template <- inlineStandAlone(template, DELIM, SECTION)
-  indent <- getIndent(template, DELIM, PARTIAL)
+  indent <- getIndent(template, DELIM)
+  #print(indent)
   template <- inlineStandAlone(template, DELIM, PARTIAL, indent=TRUE)
-  template <- inlineStandAlone(template, DELIM, INVERTEDSECTION)
   template <- inlineStandAlone(template, DELIM, ENDSECTION)
+  template <- inlineStandAlone(template, DELIM, SECTION)
+  template <- inlineStandAlone(template, DELIM, INVERTEDSECTION)
  
   KEY <- paste(DELIM[1],"(.+?)", DELIM[2], sep="")
   
@@ -134,20 +135,11 @@ inlineStandAlone <- function(text, DELIM, keyregexp, indent=FALSE){
    dKEY <- paste(DELIM[1],keyregexp, DELIM[2], sep="")
    
    re <- paste("(^|\n)([ \t]*)(",dKEY,")\\s*?(\n|$)", sep="")
+
+   rex <- regexpr(re, text)
+   #print(list(rex=rex, re=re))
    if (indent) gsub(re, "\\1\\2\\3",  text)
    else gsub(re, "\\1\\3",  text)
-}
-
-getIndent <- function(text, DELIM, keyregexp){
-   # remove groups from regexp
-   keyregexp <- gsub("\\(|\\)","",keyregexp)   
-   dKEY <- paste(DELIM[1],keyregexp, DELIM[2], sep="")
-   
-   re <- paste("(^|\n)([ \t]*)",dKEY,"\\s*?(\n|$)", sep="")
-   first <- gregexpr(re, text)[[1]]
-   last <- attr(first, "match.length") + first - 1
-   indent <- substring(text, first, last)
-   sub(re, "\\2", indent)
 }
 
 removeComments <- function(text, DELIM){
@@ -156,4 +148,14 @@ removeComments <- function(text, DELIM){
    #remove inline comments
    dCOMMENT <- paste(DELIM[1],COMMENT, DELIM[2], sep="")   
    gsub(dCOMMENT, "",  text)
+}
+
+getIndent <- function(text, DELIM){
+   # remove groups from regexp
+   dKEY <- paste(DELIM[1],PARTIAL, DELIM[2], sep="")
+   re <- paste("(^|\n)([ \t]*)",dKEY,"\\s*?(\n|$)", sep="")
+   first <- gregexpr(re, text)[[1]]
+   last <- attr(first, "match.length") + first - 1
+   indent <- substring(text, first, last)
+   sub(re, "\\2", indent)
 }
