@@ -1,7 +1,7 @@
 #' Logicless templating
 #'
 #' @param template \code{character} with template text
-#' @param data named \code{list} or env with variable that will be used during rendering
+#' @param data named \code{list} or \code{environment} with variables that will be used during rendering
 #' @param partials named \code{list} with partial templates, will be used during template contruction
 #' @param debug Used for debugging purposes, likely to disappear
 #' @return \code{character} with rendered template
@@ -44,7 +44,7 @@ renderHTML <- function(x, context){
 }
 
 renderEmpty <- function(x, context){
-  "hi"
+  ""
 }
 
 renderTemplate <- function(values, context, texts, renders, debug=FALSE){

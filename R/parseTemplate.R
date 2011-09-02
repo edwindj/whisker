@@ -4,7 +4,7 @@ AMPERSAND <- "^&(.+)"
 SECTION <- "\\#([ A-z0-9.]+)"
 INVERTEDSECTION <- "\\^([ A-z0-9.]+)"
 ENDSECTION <- "/([ A-z0-9.]+)"
-PARTIAL <- ">(.+?)"
+PARTIAL <- ">\\s*(.+?)\\s*"
 COMMENT <- "!.+?"
 
 #keytypes
@@ -20,7 +20,8 @@ parseTemplate <- function(template, partials=list(), debug=FALSE){
   template <- removeComments(template, DELIM)
   indent <- getIndent(template, DELIM)
   #print(indent)
-  template <- inlineStandAlone(template, DELIM, PARTIAL, indent=TRUE)
+  
+  template <- inlinePartial(template, DELIM)
   template <- inlineStandAlone(template, DELIM, ENDSECTION)
   template <- inlineStandAlone(template, DELIM, SECTION)
   template <- inlineStandAlone(template, DELIM, INVERTEDSECTION)
@@ -73,7 +74,9 @@ parseTemplate <- function(template, partials=list(), debug=FALSE){
        } else if (type == ">"){
          #partial
          #render[i] <- list(renderEmpty)
-         render[i] <- list(partial(key$key[i], partials))
+         indent <- sub(">([ \t]*).+","\\1", key$rawkey[i])
+         print(list(rawkey=key$rawkey[i]))
+         render[i] <- list(partial(key$key[i], partials, indent))
      } 
   }
   if (length(stack) > 1){
@@ -106,7 +109,7 @@ getKeyInfo <- function(template, KEY){
   keys <- substring(template, first, last)
   keys <- gsub(KEY, "\\1", keys)
   
-  key <- data.frame(rawkey=keys, first=first, last=last)
+  key <- data.frame(rawkey=keys, first=first, last=last, stringsAsFactors=FALSE)
   
   # keys should not contain white space, (triple and ampersand may contain surrounding whitespace
   key$key <- gsub("\\s", "", key$rawkey)
@@ -150,12 +153,10 @@ removeComments <- function(text, DELIM){
    gsub(dCOMMENT, "",  text)
 }
 
-getIndent <- function(text, DELIM){
-   # remove groups from regexp
+inlinePartial <- function(text, DELIM){
    dKEY <- paste(DELIM[1],PARTIAL, DELIM[2], sep="")
+   text <- gsub(dKEY, "{{>\\1}}", text)
    re <- paste("(^|\n)([ \t]*)",dKEY,"\\s*?(\n|$)", sep="")
-   first <- gregexpr(re, text)[[1]]
-   last <- attr(first, "match.length") + first - 1
-   indent <- substring(text, first, last)
-   sub(re, "\\2", indent)
+   rep <- paste("\\1\\2", DELIM[1],">\\2\\3",DELIM[2], sep="")
+   gsub(re, rep,  text)   
 }
