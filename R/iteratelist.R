@@ -1,4 +1,4 @@
-#' Create a named list to iterate over
+#' Create an iteration list from a R object
 #'
 #' In some case it is useful to iterate over a named \code{list} or \code{vector}
 #' \code{iteratelist} will create a new unnamed \code{list} with key value members:

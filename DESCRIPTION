@@ -17,5 +17,6 @@ Collate:
     'partials.R'
     'inverted.R'
     'pkg.R'
+    'iteratelist.R'
 Depends:
     
