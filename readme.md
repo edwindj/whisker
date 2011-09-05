@@ -19,6 +19,10 @@ programming code from templating code.
 Whisker on the other hand, takes a Mustache template and uses the variables of the 
 current `environment` (or the supplied `list` to fill in the variables).
 
+Mustache specification
+----------------------
+Whisker conforms to the specificaton except for delimiter switching. 
+
 Installation
 ============
 
