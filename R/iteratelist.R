@@ -8,6 +8,7 @@
 #' @param name \code{character} name for resulting name member.
 #' @param value \code{character} name for resulting value member.
 #' @return unnamed \code{list} with name value lists
+#' @example examples/iteratelist
 #' @export
 iteratelist <- function(x, name="name", value="value"){
   x <- as.list(x)
