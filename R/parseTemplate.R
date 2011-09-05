@@ -18,8 +18,6 @@ parseTemplate <- function(template, partials=list(), debug=FALSE){
   
   template <- paste(template, collapse="\n")
   template <- removeComments(template, DELIM)
-  indent <- getIndent(template, DELIM)
-  #print(indent)
   
   template <- inlinePartial(template, DELIM)
   template <- inlineStandAlone(template, DELIM, ENDSECTION)
@@ -73,9 +71,7 @@ parseTemplate <- function(template, partials=list(), debug=FALSE){
                         )
        } else if (type == ">"){
          #partial
-         #render[i] <- list(renderEmpty)
          indent <- sub(">([ \t]*).+","\\1", key$rawkey[i])
-         print(list(rawkey=key$rawkey[i]))
          render[i] <- list(partial(key$key[i], partials, indent))
      } 
   }
@@ -131,7 +127,7 @@ getKeyInfo <- function(template, KEY){
   key
 }
 
-inlineStandAlone <- function(text, DELIM, keyregexp, indent=FALSE){
+inlineStandAlone <- function(text, DELIM, keyregexp){
    # remove groups from regexp
    keyregexp <- gsub("\\(|\\)","",keyregexp)
    
@@ -140,9 +136,7 @@ inlineStandAlone <- function(text, DELIM, keyregexp, indent=FALSE){
    re <- paste("(^|\n)([ \t]*)(",dKEY,")\\s*?(\n|$)", sep="")
 
    rex <- regexpr(re, text)
-   #print(list(rex=rex, re=re))
-   if (indent) gsub(re, "\\1\\2\\3",  text)
-   else gsub(re, "\\1\\3",  text)
+   gsub(re, "\\1\\3",  text)
 }
 
 removeComments <- function(text, DELIM){
