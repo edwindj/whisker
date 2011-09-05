@@ -4,7 +4,7 @@ iteratelist(x)
 
 # iterate over the members of a list
 x <- list(name="John", age="30", gender="male")
-iteralist(x, name="variable") 
+iteratelist(x, name="variable") 
 
 # iterate over an unnamed vector
 values <- c(1,2,3,4)
