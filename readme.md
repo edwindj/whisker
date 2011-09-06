@@ -26,7 +26,10 @@ Whisker conforms to the specificaton except for delimiter switching.
 Installation
 ============
 
-Whisker is not (yet) available from CRAN but can be installed from github
+To install whisker use the following statement in your R console
+```install.packages("whisker")```
+
+The latest whisker version that is not yet available from CRAN but can be installed from github
 
 ```
 library(devtools)
