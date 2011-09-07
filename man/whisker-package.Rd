@@ -3,7 +3,7 @@
 \alias{whisker-package}
 \title{{{Mustache for R}}}
 \description{
-  Whisker is a templating engine for R confirming to the
+  Whisker is a templating engine for R conforming to the
   Mustache specification. Mustache is a logicless
   templating language, meaning that no programming source
   code can be used in your templates. This may seem very
@@ -17,16 +17,17 @@
 \details{
   Mustache (and therefore \code{whisker}) takes a simple
   but different approach to templating compared to most
-  templating engines. Most templating library for example
-  \code{Sweave}, \code{brew} allow the user to mix
+  templating engines. Most templating libraries for example
+  \code{Sweave} and \code{brew} allow the user to mix
   programming code and text throughout the template. This
   is powerful, but ties a template directly to a
-  programming language. Furthermore it make it difficult to
-  seperate programming code from templating code.
+  programming language. Furthermore that approach makes it
+  difficult to seperate programming code from templating
+  code.
 
   Whisker on the other hand, takes a Mustache template and
   uses the variables of the current environment (or the
-  supplied \code{list}' to fill in the variables).
+  supplied \code{list}) to fill in the variables.
 }
 \examples{
 template <- 
