@@ -28,7 +28,7 @@ How the mustache template are used with whisker can be found in the whisker docu
 Mustache specification
 ----------------------
 Whisker conforms to the [Mustache 1.1 specificaton](https://github.com/mustache/spec) except for delimiter switching and
-lambda processing.
+lambdas. We expect that it these will be implently shortly.
 
 Installation
 ============
@@ -68,5 +68,3 @@ data <- list( name = "Chris"
 
 whisker.render(template, data)
 ```
-
-###escape
