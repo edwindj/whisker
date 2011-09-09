@@ -23,10 +23,12 @@ Mustache syntax
 ---------------
 
 The syntax of Mustache templates is described in http://mustache.github.com/mustache.5.html 
+How the mustache template are used with whisker can be found in the whisker documentation, and below.
 
 Mustache specification
 ----------------------
-Whisker conforms to the specificaton except for delimiter switching. 
+Whisker conforms to the [Mustache 1.1 specificaton](https://github.com/mustache/spec) except for delimiter switching and
+lambda processing.
 
 Installation
 ============
