@@ -4,7 +4,15 @@ partial <- function(key, partials, indent=""){
 
   template <- partials[[key]]
   
-  # TODO check for missing partials?
+  if (is.null(template)){
+    # load from file?
+    fname <- paste(key, "mustache", sep=".")
+    if (file.exists(fname)){
+      template <- paste(readLines(fname), collapse="\n")
+    } else {
+      warning("No partial '",key, "' or file '",fname,"' found")
+    }
+  }
   
   # should the partial template be parsed?
   if (is.character(template)){

@@ -2,7 +2,7 @@
 #'
 #' @param template \code{character} with template text
 #' @param data named \code{list} or \code{environment} with variables that will be used during rendering
-#' @param partials named \code{list} with partial templates, will be used during template contruction
+#' @param partials named \code{list} with partial templates, will be used during template construction
 #' @param debug Used for debugging purposes, likely to disappear
 #' @return \code{character} with rendered template
 #' @rdname whisker.render
@@ -13,7 +13,7 @@ whisker.render <- function( template
                           , partials = list()
                           , debug = FALSE
                           ){
-   tmpl <- parseTemplate(template, partials=list2env(partials), debug=debug)
+   tmpl <- parseTemplate(template, partials=as.environment(partials), debug=debug)
    return(tmpl(data))
 }
 
@@ -40,7 +40,7 @@ renderText <- function(x, context){
 }
 
 renderHTML <- function(x, context){
-  renderText(whisker.escape(x))
+  whisker.escape(renderText(x))
 }
 
 renderEmpty <- function(x, context){
@@ -106,6 +106,7 @@ resolve <- function(tag, context, debug=FALSE){
 #' This function is used to test a value before rendering
 #' @param x value
 #' @return TRUE if falsey, otherwise FALSE
+#' @keywords internal
 isFalsey <- function(x){
   ( NROW(x)==0
  || (is.logical(x) && !x[1])
