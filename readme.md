@@ -1,23 +1,24 @@
 Whisker
 =======
 
-Whisker is a [{{Mustache}}](http://mustache.github.com) implementation in [R](http://www.r-project.org/) confirming to the Mustache specification.
+Whisker is a [{{Mustache}}](http://mustache.github.com) implementation in 
+[R](http://www.r-project.org/) confirming to the Mustache specification.
 Mustache is a logicless templating language, meaning that no programming source
 code can be used in your templates. This may seem very limited, but Mustache is 
 nonetheless powerful and has the advantage of being able to be used unaltered in 
-many programming 
-languages. It makes it very easy to write a web application in R using Mustache templates
-and where your browser (re)use/alter the same templates using javascript's "Mustache.js" 
+many programming languages. It makes it very easy to write a web application in R 
+using Mustache templates which could also be re-used for client-side rendering with
+"Mustache.js".
 
-Mustache (and therefore whisker) takes a simple but different approach to
-templating compared to most templating engines. Most templating libraries 
-for example `Sweave`, `brew` allow the user to mix programming code and text 
+Mustache (and therefore whisker) takes a simple, but different, approach to
+templating compared to most templating engines. Most templating libraries, 
+such as `Sweave` and `brew`, allow the user to mix programming code and text 
 throughout the template. This is powerful, but ties a template directly
-to a programming language. Furthermore it make it difficult to seperate 
-programming code from templating code.
+to a programming language and makes it difficult to seperate programming code from 
+templating code.
 
-Whisker on the other hand, takes a Mustache template and uses the variables of the 
-current `environment` (or the supplied `list` to fill in the variables).
+Whisker, on the other hand, takes a Mustache template and uses the variables of the 
+current `environment` (or the supplied `list`) to fill in the variables.
 
 Mustache syntax
 ---------------
@@ -28,7 +29,7 @@ How the mustache template are used with whisker can be found in the whisker docu
 Mustache specification
 ----------------------
 Whisker conforms to the [Mustache 1.1 specificaton](https://github.com/mustache/spec) except for delimiter switching and
-lambdas. We expect that it these will be implently shortly.
+lambdas. We expect that these will be implented shortly.
 
 Installation
 ============
@@ -50,7 +51,7 @@ Usage
 
 ###render
 
-`whisker.render` accepts a `character`
+`whisker.render` accepts a `character` template and a list or environment containing data to render:
 
 ```
 template <- 
