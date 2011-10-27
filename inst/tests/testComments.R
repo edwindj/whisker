@@ -16,6 +16,7 @@ test_that( "Inline", {
   template <- "12345{{! Comment Block! }}67890"
   data <- list()
 
+
   str <- whisker.render(template, data=data)
   
   expect_equal(str, "1234567890", label=deparse(str), info="Comment blocks should be removed from the template.")
@@ -25,6 +26,7 @@ test_that( "Multiline", {
   #"Multiline comments should be permitted."
   template <- "12345{{!\n  This is a\n  multi-line comment...\n}}67890\n"
   data <- list()
+
 
   str <- whisker.render(template, data=data)
   
@@ -36,6 +38,7 @@ test_that( "Standalone", {
   template <- "Begin.\n{{! Comment Block! }}\nEnd.\n"
   data <- list()
 
+
   str <- whisker.render(template, data=data)
   
   expect_equal(str, "Begin.\nEnd.\n", label=deparse(str), info="All standalone comment lines should be removed.")
@@ -45,6 +48,7 @@ test_that( "Indented Standalone", {
   #"All standalone comment lines should be removed."
   template <- "Begin.\n  {{! Indented Comment Block! }}\nEnd.\n"
   data <- list()
+
 
   str <- whisker.render(template, data=data)
   
@@ -56,6 +60,7 @@ test_that( "Standalone Line Endings", {
   template <- "|\r\n{{! Standalone Comment }}\r\n|"
   data <- list()
 
+
   str <- whisker.render(template, data=data)
   
   expect_equal(str, "|\r\n|", label=deparse(str), info="\"\\r\\n\" should be considered a newline for standalone tags.")
@@ -65,6 +70,7 @@ test_that( "Standalone Without Previous Line", {
   #"Standalone tags should not require a newline to precede them."
   template <- "  {{! I'm Still Standalone }}\n!"
   data <- list()
+
 
   str <- whisker.render(template, data=data)
   
@@ -76,6 +82,7 @@ test_that( "Standalone Without Newline", {
   template <- "!\n  {{! I'm Still Standalone }}"
   data <- list()
 
+
   str <- whisker.render(template, data=data)
   
   expect_equal(str, "!\n", label=deparse(str), info="Standalone tags should not require a newline to follow them.")
@@ -85,6 +92,7 @@ test_that( "Multiline Standalone", {
   #"All standalone comment lines should be removed."
   template <- "Begin.\n{{!\nSomething's going on here...\n}}\nEnd.\n"
   data <- list()
+
 
   str <- whisker.render(template, data=data)
   
@@ -96,6 +104,7 @@ test_that( "Indented Multiline Standalone", {
   template <- "Begin.\n  {{!\n    Something's going on here...\n  }}\nEnd.\n"
   data <- list()
 
+
   str <- whisker.render(template, data=data)
   
   expect_equal(str, "Begin.\nEnd.\n", label=deparse(str), info="All standalone comment lines should be removed.")
@@ -106,6 +115,7 @@ test_that( "Indented Inline", {
   template <- "  12 {{! 34 }}\n"
   data <- list()
 
+
   str <- whisker.render(template, data=data)
   
   expect_equal(str, "  12 \n", label=deparse(str), info="Inline comments should not strip whitespace")
@@ -115,6 +125,7 @@ test_that( "Surrounding Whitespace", {
   #"Comment removal should preserve surrounding whitespace."
   template <- "12345 {{! Comment Block! }} 67890"
   data <- list()
+
 
   str <- whisker.render(template, data=data)
   
