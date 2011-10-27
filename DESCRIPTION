@@ -18,5 +18,6 @@ Collate:
     'inverted.R'
     'pkg.R'
     'iteratelist.R'
+    'delim.R'
 Depends:
     

@@ -43,6 +43,7 @@ test_that( "Falsey", {
   template <- "\"{{^boolean}}This should be rendered.{{/boolean}}\""
   data <- list(boolean = FALSE)
 
+
   str <- whisker.render(template, data=data)
   
   expect_equal(str, "\"This should be rendered.\"", label=deparse(str), info="Falsey sections should have their contents rendered.")
@@ -52,6 +53,7 @@ test_that( "Truthy", {
   #"Truthy sections should have their contents omitted."
   template <- "\"{{^boolean}}This should not be rendered.{{/boolean}}\""
   data <- list(boolean = TRUE)
+
 
   str <- whisker.render(template, data=data)
   
@@ -63,6 +65,7 @@ test_that( "Context", {
   template <- "\"{{^context}}Hi {{name}}.{{/context}}\""
   data <- list(context = list(name = "Joe"))
 
+
   str <- whisker.render(template, data=data)
   
   expect_equal(str, "\"\"", label=deparse(str), info="Objects and hashes should behave like truthy values.")
@@ -72,6 +75,7 @@ test_that( "List", {
   #"Lists should behave like truthy values."
   template <- "\"{{^list}}{{n}}{{/list}}\""
   data <- list(list = list(list(n = 1), list(n = 2), list(n = 3)))
+
 
   str <- whisker.render(template, data=data)
   
@@ -83,6 +87,7 @@ test_that( "Empty List", {
   template <- "\"{{^list}}Yay lists!{{/list}}\""
   data <- list(list = list())
 
+
   str <- whisker.render(template, data=data)
   
   expect_equal(str, "\"Yay lists!\"", label=deparse(str), info="Empty lists should behave like falsey values.")
@@ -92,6 +97,7 @@ test_that( "Doubled", {
   #"Multiple inverted sections per template should be permitted."
   template <- "{{^bool}}\n* first\n{{/bool}}\n* {{two}}\n{{^bool}}\n* third\n{{/bool}}\n"
   data <- list(two = "second", bool = FALSE)
+
 
   str <- whisker.render(template, data=data)
   
@@ -103,6 +109,7 @@ test_that( "Nested (Falsey)", {
   template <- "| A {{^bool}}B {{^bool}}C{{/bool}} D{{/bool}} E |"
   data <- list(bool = FALSE)
 
+
   str <- whisker.render(template, data=data)
   
   expect_equal(str, "| A B C D E |", label=deparse(str), info="Nested falsey sections should have their contents rendered.")
@@ -112,6 +119,7 @@ test_that( "Nested (Truthy)", {
   #"Nested truthy sections should be omitted."
   template <- "| A {{^bool}}B {{^bool}}C{{/bool}} D{{/bool}} E |"
   data <- list(bool = TRUE)
+
 
   str <- whisker.render(template, data=data)
   
@@ -123,6 +131,7 @@ test_that( "Context Misses", {
   template <- "[{{^missing}}Cannot find key 'missing'!{{/missing}}]"
   data <- list()
 
+
   str <- whisker.render(template, data=data)
   
   expect_equal(str, "[Cannot find key 'missing'!]", label=deparse(str), info="Failed context lookups should be considered falsey.")
@@ -132,6 +141,7 @@ test_that( "Dotted Names - Truthy", {
   #"Dotted names should be valid for Inverted Section tags."
   template <- "\"{{^a.b.c}}Not Here{{/a.b.c}}\" == \"\""
   data <- list(a = list(b = list(c = TRUE)))
+
 
   str <- whisker.render(template, data=data)
   
@@ -143,6 +153,7 @@ test_that( "Dotted Names - Falsey", {
   template <- "\"{{^a.b.c}}Not Here{{/a.b.c}}\" == \"Not Here\""
   data <- list(a = list(b = list(c = FALSE)))
 
+
   str <- whisker.render(template, data=data)
   
   expect_equal(str, "\"Not Here\" == \"Not Here\"", label=deparse(str), info="Dotted names should be valid for Inverted Section tags.")
@@ -152,6 +163,7 @@ test_that( "Dotted Names - Broken Chains", {
   #"Dotted names that cannot be resolved should be considered falsey."
   template <- "\"{{^a.b.c}}Not Here{{/a.b.c}}\" == \"Not Here\""
   data <- list(a = list())
+
 
   str <- whisker.render(template, data=data)
   
@@ -163,6 +175,7 @@ test_that( "Surrounding Whitespace", {
   template <- " | {{^boolean}}\t|\t{{/boolean}} | \n"
   data <- list(boolean = FALSE)
 
+
   str <- whisker.render(template, data=data)
   
   expect_equal(str, " | \t|\t | \n", label=deparse(str), info="Inverted sections should not alter surrounding whitespace.")
@@ -172,6 +185,7 @@ test_that( "Internal Whitespace", {
   #"Inverted should not alter internal whitespace."
   template <- " | {{^boolean}} {{! Important Whitespace }}\n {{/boolean}} | \n"
   data <- list(boolean = FALSE)
+
 
   str <- whisker.render(template, data=data)
   
@@ -183,6 +197,7 @@ test_that( "Indented Inline Sections", {
   template <- " {{^boolean}}NO{{/boolean}}\n {{^boolean}}WAY{{/boolean}}\n"
   data <- list(boolean = FALSE)
 
+
   str <- whisker.render(template, data=data)
   
   expect_equal(str, " NO\n WAY\n", label=deparse(str), info="Single-line sections should not alter surrounding whitespace.")
@@ -192,6 +207,7 @@ test_that( "Standalone Lines", {
   #"Standalone lines should be removed from the template."
   template <- "| This Is\n{{^boolean}}\n|\n{{/boolean}}\n| A Line\n"
   data <- list(boolean = FALSE)
+
 
   str <- whisker.render(template, data=data)
   
@@ -203,6 +219,7 @@ test_that( "Standalone Indented Lines", {
   template <- "| This Is\n  {{^boolean}}\n|\n  {{/boolean}}\n| A Line\n"
   data <- list(boolean = FALSE)
 
+
   str <- whisker.render(template, data=data)
   
   expect_equal(str, "| This Is\n|\n| A Line\n", label=deparse(str), info="Standalone indented lines should be removed from the template.")
@@ -212,6 +229,7 @@ test_that( "Standalone Line Endings", {
   #"\"\\r\\n\" should be considered a newline for standalone tags."
   template <- "|\r\n{{^boolean}}\r\n{{/boolean}}\r\n|"
   data <- list(boolean = FALSE)
+
 
   str <- whisker.render(template, data=data)
   
@@ -223,6 +241,7 @@ test_that( "Standalone Without Previous Line", {
   template <- "  {{^boolean}}\n^{{/boolean}}\n/"
   data <- list(boolean = FALSE)
 
+
   str <- whisker.render(template, data=data)
   
   expect_equal(str, "^\n/", label=deparse(str), info="Standalone tags should not require a newline to precede them.")
@@ -233,6 +252,7 @@ test_that( "Standalone Without Newline", {
   template <- "^{{^boolean}}\n/\n  {{/boolean}}"
   data <- list(boolean = FALSE)
 
+
   str <- whisker.render(template, data=data)
   
   expect_equal(str, "^\n/\n", label=deparse(str), info="Standalone tags should not require a newline to follow them.")
@@ -242,6 +262,7 @@ test_that( "Padding", {
   #"Superfluous in-tag whitespace should be ignored."
   template <- "|{{^ boolean }}={{/ boolean }}|"
   data <- list(boolean = FALSE)
+
 
   str <- whisker.render(template, data=data)
   
