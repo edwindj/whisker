@@ -137,7 +137,7 @@ inlineStandAlone <- function(text, delim, keyregexp){
    # remove groups from regexp
    keyregexp <- gsub("\\(|\\)","",keyregexp)
    
-   dKEY <- paste(delim[1],keyregexp, delim[2], sep="")
+   dKEY <- delimit(keyregexp, delim)
    
    re <- paste("(^|\n)([ \t]*)(",dKEY,")\\s*?(\n|$)", sep="")
 
