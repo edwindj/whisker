@@ -55,7 +55,7 @@ replace_delim_tags <- function(template){
     delim <- tag2delim(tag)
     delimtag <- delimit(DELIM, delim)
     keytag <- delimit("(.+?)", delim)
-
+    template <- inlineStandAlone(template, delim, DELIM)
     rx <- rxsplit(template, delimtag)
     txt <- rx[1]
     
