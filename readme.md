@@ -35,14 +35,17 @@ Installation
 ============
 
 To install whisker use the following statement in your R console
-```install.packages("whisker")```
 
-The latest whisker version that is not yet available from CRAN but can be installed from github
-
+```R
+install.packages("whisker")
 ```
+
+The latest whisker version is not yet available on CRAN, but can be installed from github:
+
+```R
 library(devtools)
 
-#dev_mode()
+# dev_mode()
 install_github("whisker", "edwindj")
 ```
 
@@ -53,7 +56,7 @@ Usage
 
 `whisker.render` accepts a `character` template and a list or environment containing data to render:
 
-```
+```R
 template <- 
 'Hello {{name}}
 You have just won ${{value}}!
