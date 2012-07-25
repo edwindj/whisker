@@ -1,3 +1,6 @@
+0.3-1
+- Fixed rendering an empty template (Thanks to Hadley Wickham)
+
 0.1 
 - Initial release
 - Conforms to mustache specification except for delimiter switching
