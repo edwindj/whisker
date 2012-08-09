@@ -16,7 +16,9 @@ whisker.render <- function( template
    if (is.null(template) || template == ""){
      return("")
    }
+   
    tmpl <- parseTemplate(template, partials=as.environment(partials), debug=debug)
+   
    return(tmpl(data))
 }
 

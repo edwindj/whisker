@@ -2,8 +2,8 @@
 \alias{whisker.render}
 \title{Logicless templating}
 \usage{
-  whisker.render(template, data = parent.frame(), partials
-  = list(), debug = FALSE)
+  whisker.render(template, data = parent.frame(),
+    partials = list(), debug = FALSE)
 }
 \arguments{
   \item{template}{\code{character} with template text}

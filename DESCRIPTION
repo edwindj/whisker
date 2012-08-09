@@ -1,6 +1,6 @@
 Package: whisker
 Maintainer: Edwin de Jonge <edwindjonge@gmail.com>
-License: GPL version 3
+License: GPL-3
 Title: {{mustache}} for R, logicless templating
 Type: Package
 LazyLoad: yes
@@ -19,5 +19,6 @@ Collate:
     'pkg.R'
     'iteratelist.R'
     'delim.R'
-Depends:
-    
+    'markdown.R'
+Suggests:
+    markdown
