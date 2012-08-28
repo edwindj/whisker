@@ -22,6 +22,15 @@ whisker.render <- function( template
    return(tmpl(data))
 }
 
+whisker.renderFile <- function(con
+                             , data = parent.frame()
+                             , partials = list()
+                             , debug = FALSE
+                             ){
+  template <- paste(readLines(con), collapse='\n')
+  whisker.render(template, data, partials, debug)
+}
+
 # TODO change this into whisker...
 whisker.future <- function( infile=stdin()
                           , outfile=stdout()

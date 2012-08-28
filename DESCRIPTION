@@ -7,7 +7,7 @@ LazyLoad: yes
 Author: Edwin de Jonge
 Description: logicless templating, reuse templates in many
     programming languages including R
-Version: 0.3-1
+Version: 0.3-2
 URL: http://github.com/edwindj/whisker
 Date: 2010-12-23
 Collate:
@@ -20,5 +20,6 @@ Collate:
     'iteratelist.R'
     'delim.R'
     'markdown.R'
+    'rowsplit.R'
 Suggests:
     markdown
