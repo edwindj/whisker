@@ -13,8 +13,22 @@ whisker.render <- function( template
                           , partials = list()
                           , debug = FALSE
                           ){
+   if (is.null(template) || template == ""){
+     return("")
+   }
+   
    tmpl <- parseTemplate(template, partials=as.environment(partials), debug=debug)
+   
    return(tmpl(data))
+}
+
+whisker.renderFile <- function(con
+                             , data = parent.frame()
+                             , partials = list()
+                             , debug = FALSE
+                             ){
+  template <- paste(readLines(con), collapse='\n')
+  whisker.render(template, data, partials, debug)
 }
 
 # TODO change this into whisker...

@@ -54,8 +54,7 @@ Usage
 
 `whisker.render` accepts a `character` template and a list or environment containing data to render:
 
-
-```r
+```{r tidy=FALSE}
 library(whisker)
 template <- 
 'Hello {{name}}
@@ -74,10 +73,3 @@ data <- list( name = "Chris"
 text <- whisker.render(template, data)
 cat(text)
 ```
-
-```
-## Hello Chris
-## You have just won $10000!
-## Well, $6000, after taxes.
-```
-
