@@ -1,1 +1,5 @@
 ^\.Rproj\.user$
+^.*\.Rproj$
+^readme.md
+^readme.rmd
+^examples
