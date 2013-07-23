@@ -361,7 +361,7 @@ test_that( "Ampersand With Padding", {
 })
 
 test_that( "Empty Line", {
-    #Comments starting with the empty string should still template
+    #"Character vectors starting with the empty string should still render"
 
     template <- c("", "Hello {{place}}!")
     data <- list(place = "World")
@@ -373,7 +373,7 @@ test_that( "Empty Line", {
 
           
 test_that( "Empty Lines", {
-    #Comments starting with the empty string should still template
+    #"Character vectors of multiple empty strings should not collapse to newlines"
 
     template <- c("", "")
     data <- list()
