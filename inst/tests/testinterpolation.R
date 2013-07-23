@@ -360,3 +360,27 @@ test_that( "Ampersand With Padding", {
   expect_equal(str, "|---|", label=deparse(str), info="Superfluous in-tag whitespace should be ignored.")
 })
 
+test_that( "Empty Line", {
+    #Comments starting with the empty string should still template
+
+    template <- c("", "Hello {{place}}!")
+    data <- list(place = "World")
+
+    str <- whisker.render(template, data=data)
+
+    expect_equal(str, "Hello World!", label=deparse(str), info="Templates starting with empty string should still parse.")
+}
+
+          
+test_that( "Empty Lines", {
+    #Comments starting with the empty string should still template
+
+    template <- c("", "")
+    data <- list()
+
+    str <- whisker.render(template, data=data)
+
+    expect_equal(str, "", label=deparse(str), info="Templates of multiple empty strings should return empty.")
+}
+
+          
