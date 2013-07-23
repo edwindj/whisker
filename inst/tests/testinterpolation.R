@@ -368,8 +368,8 @@ test_that( "Empty Line", {
 
     str <- whisker.render(template, data=data)
 
-    expect_equal(str, "Hello World!", label=deparse(str), info="Templates starting with empty string should still parse.")
-}
+    expect_equal(str, "\nHello World!", label=deparse(str), info="Templates starting with empty string should still parse.")
+})
 
           
 test_that( "Empty Lines", {
@@ -381,6 +381,6 @@ test_that( "Empty Lines", {
     str <- whisker.render(template, data=data)
 
     expect_equal(str, "", label=deparse(str), info="Templates of multiple empty strings should return empty.")
-}
+})
 
           
