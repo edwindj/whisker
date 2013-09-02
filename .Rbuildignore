@@ -3,3 +3,5 @@
 ^readme.md
 ^readme.rmd
 ^examples
+.travis.yml
+Makefile
