@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/edwindj/whisker.png?branch=master)](https://travis-ci.org/edwindj/whisker)
+
 Whisker
 =======
 
