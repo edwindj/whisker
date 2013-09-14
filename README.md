@@ -59,6 +59,13 @@ Usage
 
 ```r
 library(whisker)
+```
+
+```
+## Warning: package 'whisker' was built under R version 3.0.1
+```
+
+```r
 template <- 
 'Hello {{name}}
 You have just won ${{value}}!
