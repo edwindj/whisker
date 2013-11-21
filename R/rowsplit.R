@@ -5,7 +5,8 @@
 #' For example rendering a table in HTML.
 #' @param x \code{data.frame} or \code{matrix}
 #' @param ... other options will be passed onto \code{\link{split}}
-#' @export
+#' @export 
+#' @example examples/rowSplit.R
 rowSplit <- function(x, ...){
-  split(x, seq_len(nrow(x)), ...)
+  unname(split(x, seq_len(nrow(x)), ...))
 }
