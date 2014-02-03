@@ -4,7 +4,7 @@ Whisker
 =======
 
 Whisker is a [{{Mustache}}](http://mustache.github.com) implementation in 
-[R](http://www.r-project.org/) confirming to the Mustache specification.
+[R](http://www.r-project.org/) conforming to the Mustache specification.
 Mustache is a logicless templating language, meaning that no programming source
 code can be used in your templates. This may seem very limited, but Mustache is 
 nonetheless powerful and has the advantage of being able to be used unaltered in 
