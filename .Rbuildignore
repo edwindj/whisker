@@ -1,7 +1,7 @@
 ^\.Rproj\.user$
 ^.*\.Rproj$
 ^readme.md
-^readme.rmd
+^README.rmd
 ^examples
 .travis.yml
-Makefile
+travis-tool.sh
