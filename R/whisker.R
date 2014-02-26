@@ -13,7 +13,7 @@ whisker.render <- function( template
                           , partials = list()
                           , debug = FALSE
                           ){
-   if (is.null(template) || template == ""){
+   if (is.null(template) || paste(template, collapse="") == ""){
      return("")
    }
    
