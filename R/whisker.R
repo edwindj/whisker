@@ -99,10 +99,11 @@ resolve <- function(tag, context, debug=FALSE){
     return(context[[1]])
   }
   
-  #TODO R supports names that have a "."
-  # , so first search for "." and than split
+  # R supports names that have a "." in them
+  # and splits additonal data using a "$"
+  # TODO Should do something similar for slots "@"
   
-  keys <- strsplit(tag, split=".", fixed=TRUE)[[1]]
+  keys <- strsplit(tag, split="$", fixed=TRUE)[[1]]
   if (!length(keys))
     return()
   
