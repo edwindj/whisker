@@ -15,7 +15,7 @@ keytypes <- c("", "{}", "&", "#", "^", "/", ">")
 # current parsing code is not a clean parsing state machine!
 # This is partly due to that this would be clumsy in R, 
 # It's on my list to do the parsing in C (would be significantly faster)
-parseTemplate <- function(template, partials=new.env(), debug=FALSE){
+parseTemplate <- function(template, partials=new.env(), debug=FALSE, strict=TRUE){
   #TODO add delimiter switching
 
   delim <- tag2delim()
@@ -91,7 +91,7 @@ parseTemplate <- function(template, partials=new.env(), debug=FALSE){
   renders <- render[!exclude]
   
   compiled <- function(data=list(), context=list(data)){
-    values <- lapply(keys, resolve, context=context)
+    values <- lapply(keys, resolve, context=context, strict=strict)
     keyinfo <- key
     renderTemplate( values=values
                   , context=context

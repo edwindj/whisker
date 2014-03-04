@@ -2,8 +2,8 @@
 \alias{whisker.render}
 \title{Logicless templating}
 \usage{
-  whisker.render(template, data = parent.frame(),
-    partials = list(), debug = FALSE)
+whisker.render(template, data = parent.frame(), partials = list(),
+  debug = FALSE, strict = TRUE)
 }
 \arguments{
   \item{template}{\code{character} with template text}
@@ -16,12 +16,15 @@
 
   \item{debug}{Used for debugging purposes, likely to
   disappear}
+
+  \item{strict}{\code{logical} if \code{TRUE} the
+  seperation symbol is a "." otherwise a "$"}
 }
 \value{
-  \code{character} with rendered template
+\code{character} with rendered template
 }
 \description{
-  Logicless templating
+Logicless templating
 }
 \examples{
 template <- "Hello {{place}}!"

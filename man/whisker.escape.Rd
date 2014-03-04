@@ -2,15 +2,15 @@
 \alias{whisker.escape}
 \title{escape basic HTML characters}
 \usage{
-  whisker.escape(x)
+whisker.escape(x)
 }
 \arguments{
   \item{x}{\code{character} that will be escaped}
 }
 \value{
-  HTML escaped character
+HTML escaped character
 }
 \description{
-  This method is called for normal mustache keys
+This method is called for normal mustache keys
 }
 

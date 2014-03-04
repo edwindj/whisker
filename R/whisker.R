@@ -4,6 +4,7 @@
 #' @param data named \code{list} or \code{environment} with variables that will be used during rendering
 #' @param partials named \code{list} with partial templates, will be used during template construction
 #' @param debug Used for debugging purposes, likely to disappear
+#' @param strict \code{logical} if \code{TRUE} the seperation symbol is a "." otherwise a "$"
 #' @return \code{character} with rendered template
 #' @rdname whisker.render
 #' @example examples/whisker_render.R
@@ -12,12 +13,17 @@ whisker.render <- function( template
                           , data = parent.frame()
                           , partials = list()
                           , debug = FALSE
+                          , strict = TRUE
                           ){
    if (is.null(template) || paste(template, collapse="") == ""){
      return("")
    }
    
-   tmpl <- parseTemplate(template, partials=as.environment(partials), debug=debug)
+   tmpl <- parseTemplate( template
+                        , partials=as.environment(partials)
+                        , debug=debug
+                        , strict=strict
+                        )
    
    return(tmpl(data))
 }
@@ -94,15 +100,16 @@ whisker.escape <- function(x){
   x
 }
   
-resolve <- function(tag, context, debug=FALSE){
+resolve <- function(tag, context, debug=FALSE, strict=TRUE){
   if (tag=="."){
     return(context[[1]])
   }
   
+  split_symbol = if (strict) "." else "$"
   #TODO R supports names that have a "."
   # , so first search for "." and than split
   
-  keys <- strsplit(tag, split=".", fixed=TRUE)[[1]]
+  keys <- strsplit(tag, split=split_symbol, fixed=TRUE)[[1]]
   if (!length(keys))
     return()
   
