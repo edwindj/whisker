@@ -29,6 +29,6 @@ var is true
 var is not true
 {{/var}}"
 
-  expect_equal("var is true",whisker.render(template, list(var=TRUE)))
-  expect_equal("var is not true",whisker.render(template, list(var=FALSE)))
+  expect_equal("var is true\n",whisker.render(template, list(var=TRUE)))
+  expect_equal("var is not true\n",whisker.render(template, list(var=FALSE)))
 })
