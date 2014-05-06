@@ -93,11 +93,26 @@ renderTemplate <- function(values, context, texts, renders, debug=FALSE){
 #' @param x \code{character} that will be escaped
 #' @return HTML escaped character 
 whisker.escape <- function(x){
-  x <- gsub("&", "&amp;", x)
-  x <- gsub("<", "&lt;", x)
-  x <- gsub(">", "&gt;", x)
-  x <- gsub('"', "&quot;", x)
-  x
+    repls <-
+        list(
+             "&" = "&amp;"
+            ,"<" = "&lt;"
+            ,"<" = "&gt;"
+            ,'"' = "&quot;;"
+            ## german umlaute
+            ,"ä" = "&auml;"
+            ,"Ä" = "&Auml;"
+            ,"ö" = "&ouml;"
+            ,"Ö" = "&Ouml;"
+            ,"ü" = "&uuml;"
+            ,"Ü" = "&Uuml;"
+            ,"ß" = "&szlig;"
+            )
+    Reduce(
+        function(acc,x) gsub(x, repls[[x]], acc)
+       ,names(repls)
+       ,x
+        )
 }
   
 resolve <- function(tag, context, debug=FALSE, strict=TRUE){
