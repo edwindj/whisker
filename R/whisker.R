@@ -107,6 +107,31 @@ whisker.escape <- function(x){
             ,"ü" = "&uuml;"
             ,"Ü" = "&Uuml;"
             ,"ß" = "&szlig;"
+            ## spanish
+            ,"Á" =  "&Aacute;"
+            ,"É" =  "&Eacute;"
+            ,"Í" =  "&Iacute;"
+            ,"Ó" =  "&Oacute;"
+            ,"Ú" =  "&Uacute;"
+            ,"Ñ" =  "&Ntilde;"
+            
+            ,"á" =  "&aacute;"
+            ,"é" =  "&eacute;"
+            ,"í" =  "&iacute;"
+            ,"ó" =  "&oacute;"
+            ,"ú" =  "&uacute;"
+            ,"ñ" =  "&ntilde;"
+
+            "¿"  =  "&iquest;"
+            "¡"  =  "&iexcl; "
+            "º"  =  "&ordm; "
+            "ª"  =  "&ordf; "
+            "«"  =  "&laquo; "
+            "»"  =  "&raquo; "
+            "‹"  =  "&lsaquo;"
+            "›"  =  "&rsaquo;"
+            "€"  =  "&euro;"
+            
             )
     Reduce(
         function(acc,x) gsub(x, repls[[x]], acc)
