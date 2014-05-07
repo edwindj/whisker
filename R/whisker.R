@@ -122,16 +122,15 @@ whisker.escape <- function(x){
             ,"ú" =  "&uacute;"
             ,"ñ" =  "&ntilde;"
 
-            "¿"  =  "&iquest;"
-            "¡"  =  "&iexcl; "
-            "º"  =  "&ordm; "
-            "ª"  =  "&ordf; "
-            "«"  =  "&laquo; "
-            "»"  =  "&raquo; "
-            "‹"  =  "&lsaquo;"
-            "›"  =  "&rsaquo;"
-            "€"  =  "&euro;"
-            
+            ,"¿"  =  "&iquest;"
+            ,"¡"  =  "&iexcl; "
+            ,"º"  =  "&ordm; "
+            ,"ª"  =  "&ordf; "
+            ,"«"  =  "&laquo; "
+            ,"»"  =  "&raquo; "
+            ,"‹"  =  "&lsaquo;"
+            ,"›"  =  "&rsaquo;"
+            ,"€"  =  "&euro;"
             )
     Reduce(
         function(acc,x) gsub(x, repls[[x]], acc)
