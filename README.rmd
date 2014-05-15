@@ -75,3 +75,25 @@ data <- list( name = "Chris"
 text <- whisker.render(template, data)
 cat(text)
 ```
+
+Or using a text file
+
+```{r tidy=FALSE,eval=FALSE}
+library(whisker)
+
+template <- readLines("./template.html")
+data <- list( name = "Chris"
+            , value = 10000
+            , taxed_value = 10000 - (10000 * 0.4)
+            , in_ca = TRUE
+            )
+
+writeLines(whisker.render(template, data), "./output.html")
+```
+
+Note
+----
+
+By default `whisker` applies `html` escaping on the generated text.
+To prevent this use "{{{variable}}}" (triple) in stead of "{{variable}}".
+

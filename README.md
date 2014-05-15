@@ -4,7 +4,7 @@ Whisker
 =======
 
 Whisker is a [{{Mustache}}](http://mustache.github.com) implementation in 
-[R](http://www.r-project.org/) conforming to the Mustache specification.
+[R](http://www.r-project.org/) confirming to the Mustache specification.
 Mustache is a logicless templating language, meaning that no programming source
 code can be used in your templates. This may seem very limited, but Mustache is 
 nonetheless powerful and has the advantage of being able to be used unaltered in 
@@ -38,13 +38,13 @@ Installation
 
 To install whisker use the following statement in your R console
 
-```r
+```S
 install.packages("whisker")
 ```
 
 The latest whisker version is not yet available on CRAN, but can be installed from github:
 
-```r
+```S
 library(devtools)
 
 # dev_mode()
@@ -57,7 +57,7 @@ Usage
 `whisker.render` accepts a `character` template and a list or environment containing data to render:
 
 
-```R
+```S
 library(whisker)
 template <- 
 'Hello {{name}}
@@ -82,4 +82,28 @@ cat(text)
 ## You have just won $10000!
 ## Well, $6000, after taxes.
 ```
+
+
+Or using a text file
+
+
+```S
+library(whisker)
+
+template <- readLines("./template.html")
+data <- list( name = "Chris"
+            , value = 10000
+            , taxed_value = 10000 - (10000 * 0.4)
+            , in_ca = TRUE
+            )
+
+writeLines(whisker.render(template, data), "./output.html")
+```
+
+
+Note
+----
+
+By default `whisker` applies `html` escaping on the generated text.
+To prevent this use `{{{variable}}}` (triple) in stead of `{{variable}}`.
 
