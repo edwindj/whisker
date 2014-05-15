@@ -1,3 +1,6 @@
+0.4 
+- Fixed issue #12: inconsistent treatment of new lines (Thanks to @danhalligan)
+
 0.3-3 
 - Added an option "strict" to render. Setting it to FALSE allows for "." in names
 and use "$" for splitting which is a more natural R syntax.
