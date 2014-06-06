@@ -107,3 +107,18 @@ Note
 By default `whisker` applies `html` escaping on the generated text.
 To prevent this use `{{{variable}}}` (triple) in stead of `{{variable}}`.
 
+
+```S
+template <- 
+"I'm escaped: {{name}}
+And I'm not: {{{name}}}"
+
+data <- list( name = '<My Name="Nescio">')
+whisker.render(template, data)
+```
+
+Generates:
+```
+I'm escaped: &lt;My Name=&quot;Nescio&quot;&gt;
+And I'm not: <My Name="Nescio">
+```
