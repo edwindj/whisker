@@ -4,7 +4,9 @@
 #' @param data named \code{list} or \code{environment} with variables that will be used during rendering
 #' @param partials named \code{list} with partial templates, will be used during template construction
 #' @param debug Used for debugging purposes, likely to disappear
-#' @param strict \code{logical} if \code{TRUE} the seperation symbol is a "." otherwise a "$"
+#' @param strict \code{logical} if \code{TRUE} the separation symbol is a "." otherwise a "$"
+#' @param checkvars \code{logical} if \code{TRUE} \code{whisker.render} will
+#' generate warnings when values are not present in \code{data}.
 #' @return \code{character} with rendered template
 #' @rdname whisker.render
 #' @example examples/whisker_render.R
@@ -14,6 +16,7 @@ whisker.render <- function( template
                           , partials = list()
                           , debug = FALSE
                           , strict = TRUE
+                          , checkvars = FALSE
                           ){
    if (is.null(template) || paste(template, collapse="") == ""){
      return("")
@@ -23,6 +26,7 @@ whisker.render <- function( template
                         , partials=as.environment(partials)
                         , debug=debug
                         , strict=strict
+                        , checkvars = checkvars
                         )
    
    return(tmpl(data))
