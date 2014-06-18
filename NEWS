@@ -1,5 +1,6 @@
 0.4 
 - Fixed issue #12: inconsistent treatment of new lines (Thanks to @danhalligan)
+- Updated documentation for disabling html escaping. (issue #16)(Thanks to @ctbrown)
 
 0.3-3 
 - Added an option "strict" to render. Setting it to FALSE allows for "." in names
