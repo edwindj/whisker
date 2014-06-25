@@ -7,6 +7,8 @@
 #' @param strict \code{logical} if \code{TRUE} the separation symbol is a "." otherwise a "$"
 #' @param checkvars \code{logical} if \code{TRUE} \code{whisker.render} will
 #' generate warnings when values are not present in \code{data}.
+#' @param escapeHTML \code{logical} if \code{TRUE} \code{whisker.render} will
+#' escape  HTML characters (&, <, >, ").
 #' @return \code{character} with rendered template
 #' @rdname whisker.render
 #' @example examples/whisker_render.R
@@ -17,16 +19,18 @@ whisker.render <- function( template
                           , debug = FALSE
                           , strict = TRUE
                           , checkvars = FALSE
+                          , escapeHTML = TRUE
                           ){
    if (is.null(template) || paste(template, collapse="") == ""){
      return("")
    }
    
    tmpl <- parseTemplate( template
-                        , partials=as.environment(partials)
-                        , debug=debug
-                        , strict=strict
+                        , partials = as.environment(partials)
+                        , debug = debug
+                        , strict = strict
                         , checkvars = checkvars
+                        , escapeHTML = escapeHTML
                         )
    
    return(tmpl(data))
