@@ -71,8 +71,15 @@ renderEmpty <- function(x, context){
   ""
 }
 
-renderTemplate <- function(values, context, texts, renders, debug=FALSE){
+renderTemplate <- function(values, context, texts, renders, keys, debug=FALSE,
+  checkvars=FALSE){
    
+   if (checkvars){
+     for (v in which(sapply(values, is.null))){
+       warning("Missing '", keys[v],"'")
+     }
+   }
+
    s <- mapply(values, renders, FUN=function(value, render){
      render(value, context)
    })

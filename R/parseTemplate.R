@@ -76,6 +76,7 @@ parseTemplate <- function(template, partials=new.env(), debug=FALSE, strict=TRUE
        render[h] <- list(renderFUN( text[idx]
                                   , key$key[kidx]
                                   , render[kidx]
+                                  , checkvars=checkvars
                                   ) 
                         )
        } else if (type == ">"){
@@ -95,17 +96,14 @@ parseTemplate <- function(template, partials=new.env(), debug=FALSE, strict=TRUE
   
   compiled <- function(data=list(), context=list(data)){
     values <- lapply(keys, resolve, context=context, strict=strict)
-    if (isTRUE(checkvars)){
-      for (v in which(sapply(values, is.null))){
-        warning("Missing '", keys[v],"'")
-      }
-    }
     keyinfo <- key
     renderTemplate( values=values
                   , context=context
                   , texts=texts
                   , renders=renders
+                  , keys=keys
                   , debug=debug
+                  , checkvars=checkvars
                   )
   }
   
