@@ -78,7 +78,9 @@ renderEmpty <- function(x, context){
 renderTemplate <- function(values, context, texts, renders, keys, debug=FALSE,
   checkvars=FALSE){
    
-   if (checkvars){
+   # check variables, but avoid situation when keys is a character vector of 
+   # length 1 with an empty string (no keys available)
+   if (checkvars && !(length(keys) == 1 && keys[1] == "") && length(values) > 1){
      for (v in which(sapply(values, is.null))){
        warning("Missing '", keys[v],"'")
      }
