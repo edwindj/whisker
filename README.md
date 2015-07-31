@@ -1,4 +1,4 @@
-![version](http://cranlogs.r-pkg.org/badges/version/whisker)
+![version](http://www.r-pkg.org/badges/version/whisker)
 ![downloads](http://cranlogs.r-pkg.org/badges/whisker)
 [![Build Status](https://travis-ci.org/edwindj/whisker.png?branch=master)](https://travis-ci.org/edwindj/whisker)
 
