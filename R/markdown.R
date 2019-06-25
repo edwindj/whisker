@@ -9,7 +9,7 @@ whisker.markdownToHTML <- function( template
     stop("This function needs the package 'markdown', which can be installed from CRAN.")
   }
   
-  if (is.null(template) || template == ""){
+  if (is.null(template) || identical(template, "")){
     return("")
   }
   
