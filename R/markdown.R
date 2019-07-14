@@ -5,7 +5,7 @@ whisker.markdownToHTML <- function( template
                         , partials = list()
                         , debug = FALSE
                       ){
-  if (!require(markdown)){
+  if (!requireNamespace("markdown", quietly = TRUE)){
     stop("This function needs the package 'markdown', which can be installed from CRAN.")
   }
   

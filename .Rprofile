@@ -1,5 +1,5 @@
 .First <- function(){
-  if (require(devtools))
-    as.package(".")
+  if (requireNamespace("devtools", quietly = TRUE))
+    devtools::as.package(".")
   return()
 }
