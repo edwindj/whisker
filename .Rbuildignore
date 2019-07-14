@@ -6,3 +6,4 @@
 .travis.yml
 travis-tool.sh
 ^appveyor\.yml$
+^revdep$
