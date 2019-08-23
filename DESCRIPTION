@@ -5,8 +5,7 @@ Title: {{mustache}} for R, logicless templating
 Type: Package
 LazyLoad: yes
 Author: Edwin de Jonge
-Description: logicless templating, reuse templates in many
-    programming languages including R
+Description: Implements 'Mustache' logicless templating.
 Version: 0.4
 URL: http://github.com/edwindj/whisker
 Date: 2010-12-23
@@ -23,3 +22,4 @@ Collate:
     'rowsplit.R'
 Suggests:
     markdown
+RoxygenNote: 6.1.1

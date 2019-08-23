@@ -19,7 +19,7 @@ whisker.render <- function( template
                           , debug = FALSE
                           , strict = TRUE
                           ){
-   if (is.null(template) || paste(template, collapse="") == ""){
+   if (is.null(template) || identical(paste(template, collapse=""), "")){
      return("")
    }
    
