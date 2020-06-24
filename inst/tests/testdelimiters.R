@@ -15,8 +15,7 @@ context('Spec v1.1, delimiters')
 test_that( "Pair Behavior", {
   #"The equals sign (used on both sides) should permit delimiter changes."
   template <- "{{=<% %>=}}(<%text%>)"
-  data <- list(text = "Hey!")
-
+  data <- list("Hey!")
 
   str <- whisker.render(template, data=data)
   
@@ -26,8 +25,7 @@ test_that( "Pair Behavior", {
 test_that( "Special Characters", {
   #"Characters with special meaning regexen should be valid delimiters."
   template <- "({{=[ ]=}}[text])"
-  data <- list(text = "It worked!")
-
+  data <- list("It worked!")
 
   str <- whisker.render(template, data=data)
   
@@ -37,8 +35,7 @@ test_that( "Special Characters", {
 test_that( "Sections", {
   #"Delimiters set outside sections should persist."
   template <- "[\n{{#section}}\n  {{data}}\n  |data|\n{{/section}}\n\n{{= | | =}}\n|#section|\n  {{data}}\n  |data|\n|/section|\n]\n"
-  data <- list(section = TRUE, data = "I got interpolated.")
-
+  data <- list(TRUE, "I got interpolated.")
 
   str <- whisker.render(template, data=data)
   
@@ -48,8 +45,7 @@ test_that( "Sections", {
 test_that( "Inverted Sections", {
   #"Delimiters set outside inverted sections should persist."
   template <- "[\n{{^section}}\n  {{data}}\n  |data|\n{{/section}}\n\n{{= | | =}}\n|^section|\n  {{data}}\n  |data|\n|/section|\n]\n"
-  data <- list(section = FALSE, data = "I got interpolated.")
-
+  data <- list(FALSE, "I got interpolated.")
 
   str <- whisker.render(template, data=data)
   
@@ -59,9 +55,9 @@ test_that( "Inverted Sections", {
 test_that( "Partial Inheritence", {
   #"Delimiters set in a parent template should not affect a partial."
   template <- "[ {{>include}} ]\n{{= | | =}}\n[ |>include| ]\n"
-  data <- list(value = "yes")
+  data <- list("yes")
 
-  partials <- list(include = ".{{value}}.")
+  partials <- list(".{{value}}.")
   str <- whisker.render(template, partials=partials, data=data)
   
   expect_equal(str, "[ .yes. ]\n[ .yes. ]\n", label=deparse(str), info="Delimiters set in a parent template should not affect a partial.")
@@ -70,9 +66,9 @@ test_that( "Partial Inheritence", {
 test_that( "Post-Partial Behavior", {
   #"Delimiters set in a partial should not affect the parent template."
   template <- "[ {{>include}} ]\n[ .{{value}}.  .|value|. ]\n"
-  data <- list(value = "yes")
+  data <- list("yes")
 
-  partials <- list(include = ".{{value}}. {{= | | =}} .|value|.")
+  partials <- list(".{{value}}. {{= | | =}} .|value|.")
   str <- whisker.render(template, partials=partials, data=data)
   
   expect_equal(str, "[ .yes.  .yes. ]\n[ .yes.  .|value|. ]\n", label=deparse(str), info="Delimiters set in a partial should not affect the parent template.")
@@ -82,7 +78,6 @@ test_that( "Surrounding Whitespace", {
   #"Surrounding whitespace should be left untouched."
   template <- "| {{=@ @=}} |"
   data <- list()
-
 
   str <- whisker.render(template, data=data)
   
@@ -94,7 +89,6 @@ test_that( "Outlying Whitespace (Inline)", {
   template <- " | {{=@ @=}}\n"
   data <- list()
 
-
   str <- whisker.render(template, data=data)
   
   expect_equal(str, " | \n", label=deparse(str), info="Whitespace should be left untouched.")
@@ -104,7 +98,6 @@ test_that( "Standalone Tag", {
   #"Standalone lines should be removed from the template."
   template <- "Begin.\n{{=@ @=}}\nEnd.\n"
   data <- list()
-
 
   str <- whisker.render(template, data=data)
   
@@ -116,7 +109,6 @@ test_that( "Indented Standalone Tag", {
   template <- "Begin.\n  {{=@ @=}}\nEnd.\n"
   data <- list()
 
-
   str <- whisker.render(template, data=data)
   
   expect_equal(str, "Begin.\nEnd.\n", label=deparse(str), info="Indented standalone lines should be removed from the template.")
@@ -126,7 +118,6 @@ test_that( "Standalone Line Endings", {
   #"\"\\r\\n\" should be considered a newline for standalone tags."
   template <- "|\r\n{{= @ @ =}}\r\n|"
   data <- list()
-
 
   str <- whisker.render(template, data=data)
   
@@ -138,7 +129,6 @@ test_that( "Standalone Without Previous Line", {
   template <- "  {{=@ @=}}\n="
   data <- list()
 
-
   str <- whisker.render(template, data=data)
   
   expect_equal(str, "=", label=deparse(str), info="Standalone tags should not require a newline to precede them.")
@@ -149,7 +139,6 @@ test_that( "Standalone Without Newline", {
   template <- "=\n  {{=@ @=}}"
   data <- list()
 
-
   str <- whisker.render(template, data=data)
   
   expect_equal(str, "=\n", label=deparse(str), info="Standalone tags should not require a newline to follow them.")
@@ -159,7 +148,6 @@ test_that( "Pair with Padding", {
   #"Superfluous in-tag whitespace should be ignored."
   template <- "|{{= @   @ =}}|"
   data <- list()
-
 
   str <- whisker.render(template, data=data)
   

@@ -31,7 +31,7 @@ parseTemplate <- function(template, partials=new.env(), debug=FALSE, strict=TRUE
 #   template <- inlineStandAlone(template, delim, ENDSECTION)
 #   template <- inlineStandAlone(template, delim, SECTION)
 #   template <- inlineStandAlone(template, delim, INVERTEDSECTION)
- 
+  #browser()
   KEY <- delimit("(.+?)", delim)
  
   text <- strsplit(template, KEY)[[1]] 

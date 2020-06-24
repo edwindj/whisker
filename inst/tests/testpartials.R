@@ -22,7 +22,7 @@ test_that( "Basic Behavior", {
   template <- "\"{{>text}}\""
   data <- list()
 
-  partials <- list(text = "from partial")
+  partials <- list("from partial")
   str <- whisker.render(template, partials=partials, data=data)
   
   expect_equal(str, "\"from partial\"", label=deparse(str), info="The greater-than operator should expand to the named partial.")
@@ -31,9 +31,9 @@ test_that( "Basic Behavior", {
 test_that( "Context", {
   #"The greater-than operator should operate within the current context."
   template <- "\"{{>partial}}\""
-  data <- list(text = "content")
+  data <- list("content")
 
-  partials <- list(partial = "*{{text}}*")
+  partials <- list("*{{text}}*")
   str <- whisker.render(template, partials=partials, data=data)
   
   expect_equal(str, "\"*content*\"", label=deparse(str), info="The greater-than operator should operate within the current context.")
@@ -42,9 +42,9 @@ test_that( "Context", {
 test_that( "Recursion", {
   #"The greater-than operator should properly recurse."
   template <- "{{>node}}"
-  data <- list(content = "X", nodes = list(list(content = "Y", nodes = list())))
+  data <- list("X", list(list("Y", list())))
 
-  partials <- list(node = "{{content}}<{{#nodes}}{{>node}}{{/nodes}}>")
+  partials <- list("{{content}}<{{#nodes}}{{>node}}{{/nodes}}>")
   str <- whisker.render(template, partials=partials, data=data)
   
   expect_equal(str, "X<Y<>>", label=deparse(str), info="The greater-than operator should properly recurse.")
@@ -55,7 +55,7 @@ test_that( "Surrounding Whitespace", {
   template <- "| {{>partial}} |"
   data <- list()
 
-  partials <- list(partial = "\t|\t")
+  partials <- list("\t|\t")
   str <- whisker.render(template, partials=partials, data=data)
   
   expect_equal(str, "| \t|\t |", label=deparse(str), info="The greater-than operator should not alter surrounding whitespace.")
@@ -64,9 +64,9 @@ test_that( "Surrounding Whitespace", {
 test_that( "Inline Indentation", {
   #"Whitespace should be left untouched."
   template <- "  {{data}}  {{> partial}}\n"
-  data <- list(data = "|")
+  data <- list("|")
 
-  partials <- list(partial = ">\n>")
+  partials <- list(">\n>")
   str <- whisker.render(template, partials=partials, data=data)
   
   expect_equal(str, "  |  >\n>\n", label=deparse(str), info="Whitespace should be left untouched.")
@@ -77,7 +77,7 @@ test_that( "Standalone Line Endings", {
   template <- "|\r\n{{>partial}}\r\n|"
   data <- list()
 
-  partials <- list(partial = ">")
+  partials <- list(">")
   str <- whisker.render(template, partials=partials, data=data)
   
   expect_equal(str, "|\r\n>|", label=deparse(str), info="\"\\r\\n\" should be considered a newline for standalone tags.")
@@ -88,7 +88,7 @@ test_that( "Standalone Without Previous Line", {
   template <- "  {{>partial}}\n>"
   data <- list()
 
-  partials <- list(partial = ">\n>")
+  partials <- list(">\n>")
   str <- whisker.render(template, partials=partials, data=data)
   
   expect_equal(str, "  >\n  >>", label=deparse(str), info="Standalone tags should not require a newline to precede them.")
@@ -99,7 +99,7 @@ test_that( "Standalone Without Newline", {
   template <- ">\n  {{>partial}}"
   data <- list()
 
-  partials <- list(partial = ">\n>")
+  partials <- list(">\n>")
   str <- whisker.render(template, partials=partials, data=data)
   
   expect_equal(str, ">\n  >\n  >", label=deparse(str), info="Standalone tags should not require a newline to follow them.")
@@ -108,9 +108,9 @@ test_that( "Standalone Without Newline", {
 test_that( "Standalone Indentation", {
   #"Each line of the partial should be indented before rendering."
   template <- "\\\n {{>partial}}\n/\n"
-  data <- list(content = "<\n->")
+  data <- list("<\n->")
 
-  partials <- list(partial = "|\n{{{content}}}\n|\n")
+  partials <- list("|\n{{{content}}}\n|\n")
   str <- whisker.render(template, partials=partials, data=data)
   
   expect_equal(str, "\\\n |\n <\n->\n |\n/\n", label=deparse(str), info="Each line of the partial should be indented before rendering.")
@@ -119,9 +119,9 @@ test_that( "Standalone Indentation", {
 test_that( "Padding Whitespace", {
   #"Superfluous in-tag whitespace should be ignored."
   template <- "|{{> partial }}|"
-  data <- list(boolean = TRUE)
+  data <- list(TRUE)
 
-  partials <- list(partial = "[]")
+  partials <- list("[]")
   str <- whisker.render(template, partials=partials, data=data)
   
   expect_equal(str, "|[]|", label=deparse(str), info="Superfluous in-tag whitespace should be ignored.")

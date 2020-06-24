@@ -34,7 +34,7 @@ rxsplit <- function(x, pattern){
 
 #' enclose a key with delimiters
 #' 
-#' @param x character with delimiter seperated with a space
+#' @param x character with delimiter separated with a space
 #' @param delim character vector with escaped delimiters
 #' @keywords internal
 delimit <- function(x, delim=tag2delim()){

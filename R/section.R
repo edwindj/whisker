@@ -13,6 +13,11 @@ section <- function(texts, keys, renders){
 }
 
 processSection <- function(value, context, texts, keys, renders){
+   #browser()
+   if (is.function(value)){
+      value <- value(texts)
+   }
+   
    if (isFalsey(value)){
      return()
    }

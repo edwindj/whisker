@@ -67,6 +67,6 @@ spec <- c( "interpolation.json"
          , "sections.json"
          , "partials.json"
          , "delimiters.json"
-         #, "lambdas.json"
+         #, "lambdas.json"
          )
 convertToTest(spec)

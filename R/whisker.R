@@ -121,6 +121,9 @@ resolve <- function(tag, context, debug=FALSE, strict=TRUE){
     value <- data
     for (key in keys){
        value <- value[[key]]
+       if (is.function(value)){
+         value <- value()
+       }
     }
     if (!is.null(value)) return(value)
   }
@@ -135,6 +138,6 @@ resolve <- function(tag, context, debug=FALSE, strict=TRUE){
 isFalsey <- function(x){
   ( NROW(x)==0
  || (is.logical(x) && !x[1])
- || is.function(x)
+ #|| is.function(x)
   )
 }
