@@ -1,4 +1,24 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
 [![Build Status](https://travis-ci.org/edwindj/whisker.png?branch=master)](https://travis-ci.org/edwindj/whisker)
+[![CRAN](http://www.r-pkg.org/badges/version/whisker)](https://CRAN.R-project.org/package=whisker)
+[![Downloads](http://cranlogs.r-pkg.org/badges/whisker)](http://www.r-pkg.org/pkg/whisker) 
+[![status](https://tinyverse.netlify.com/badge/whisker)](https://CRAN.R-project.org/package=whisker)
+
+
 
 Whisker
 =======
