@@ -2,6 +2,8 @@
 ![downloads](http://cranlogs.r-pkg.org/badges/whisker)
 [![Build Status](https://travis-ci.org/edwindj/whisker.png?branch=master)](https://travis-ci.org/edwindj/whisker)
 [![Build status](https://ci.appveyor.com/api/projects/status/p8t4sin18l54h72d?svg=true)](https://ci.appveyor.com/project/edwindj/whisker)
+[![status](https://tinyverse.netlify.com/badge/whisker)](https://CRAN.R-project.org/package=whisker)
+
 
 Whisker
 =======
