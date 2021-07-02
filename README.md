@@ -30,7 +30,7 @@ current `environment` (or the supplied `list`) to fill in the variables.
 Mustache syntax
 ---------------
 
-The syntax of Mustache templates is described in http://mustache.github.com/mustache.5.html 
+The syntax of Mustache templates is described in https://mustache.github.io/mustache.5.html 
 How the mustache template are used with whisker can be found in the whisker documentation, and below.
 
 Mustache specification
