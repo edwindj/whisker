@@ -48,7 +48,7 @@ The latest whisker version is not yet available on CRAN, but can be installed fr
 library(devtools)
 
 # dev_mode()
-install_github("whisker", "edwindj")
+install_github("edwindj/whisker")
 ```
 
 Usage
