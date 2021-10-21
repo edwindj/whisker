@@ -54,7 +54,7 @@ install_github("edwindj/whisker")
 Usage
 -----
 
-`whisker.render` accepts a `character` template and a list or environment containing data to render:
+`whisker.render()` accepts a `character` template and a list or environment containing data to render:
 
 ```{r tidy=FALSE}
 library(whisker)
@@ -94,6 +94,6 @@ writeLines(whisker.render(template, data), "./output.html")
 Note
 ----
 
-By default `whisker` applies `html` escaping on the generated text.
-To prevent this use "{{{variable}}}" (triple) in stead of "{{variable}}".
+By default whisker applies html escaping on the generated text.
+To prevent this use "{{{variable}}}" (triple) in stead of "{{variable}}" (double).
 
