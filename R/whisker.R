@@ -4,14 +4,14 @@
 #' @param data named \code{list} or \code{environment} with variables that will be used during rendering
 #' @param partials named \code{list} with partial templates, will be used during template construction
 #' @param debug Used for debugging purposes, likely to disappear
-#' @param strict \code{logical} if \code{TRUE} the seperation symbol is a "." otherwise a "$"
+#' @param strict \code{logical} if \code{TRUE} the separation symbol is a "." otherwise a "$"
 #' @return \code{character} with rendered template
 #' @rdname whisker.render
 #' @example examples/whisker_render.R
 #' @export
 #' @note 
 #' By default whisker applies html escaping on the generated text. 
-#' To prevent this use \{\{\{variable\}\}\} (triple) in stead of 
+#' To prevent this use \{\{\{variable\}\}\} (triple) instead of 
 #' \{\{variable\}\}.
 whisker.render <- function( template
                           , data = parent.frame()
