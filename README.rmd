@@ -3,7 +3,7 @@
 Whisker
 =======
 
-Whisker is a [{{Mustache}}](http://mustache.github.com) implementation in 
+Whisker is a [{{Mustache}}](https://mustache.github.io/) implementation in 
 [R](http://www.r-project.org/) confirming to the Mustache specification.
 Mustache is a logicless templating language, meaning that no programming source
 code can be used in your templates. This may seem very limited, but Mustache is 
@@ -16,7 +16,7 @@ Mustache (and therefore whisker) takes a simple, but different, approach to
 templating compared to most templating engines. Most templating libraries, 
 such as `Sweave`, `knitr` and `brew`, allow the user to mix programming code and text 
 throughout the template. This is powerful, but ties your template directly
-to a programming language and makes it difficult to seperate programming code from 
+to a programming language and makes it difficult to separate programming code from 
 templating code.
 
 Whisker, on the other hand, takes a Mustache template and uses the variables of the 
@@ -30,8 +30,8 @@ How the mustache template are used with whisker can be found in the whisker docu
 
 Mustache specification
 ----------------------
-Whisker conforms to the [Mustache 1.1 specificaton](https://github.com/mustache/spec) except for delimiter switching and
-lambdas. We expect that these will be implented shortly.
+Whisker conforms to the [Mustache 1.1 specification](https://github.com/mustache/spec) except for delimiter switching and
+lambdas. We expect that these will be implemented shortly.
 
 Installation
 ============
@@ -42,19 +42,19 @@ To install whisker use the following statement in your R console
 install.packages("whisker")
 ```
 
-The latest whisker version is not yet available on CRAN, but can be installed from github:
+The latest whisker version is not yet available on CRAN, but can be installed from GitHub:
 
 ```r
 library(devtools)
 
 # dev_mode()
-install_github("whisker", "edwindj")
+install_github("edwindj/whisker")
 ```
 
 Usage
 -----
 
-`whisker.render` accepts a `character` template and a list or environment containing data to render:
+`whisker.render()` accepts a `character` template and a list or environment containing data to render:
 
 ```{r tidy=FALSE}
 library(whisker)
@@ -94,6 +94,6 @@ writeLines(whisker.render(template, data), "./output.html")
 Note
 ----
 
-By default `whisker` applies `html` escaping on the generated text.
-To prevent this use "{{{variable}}}" (triple) in stead of "{{variable}}".
+By default whisker applies html escaping on the generated text.
+To prevent this use "{{{variable}}}" (triple) instead of "{{variable}}" (double).
 
