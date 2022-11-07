@@ -4,8 +4,13 @@
 \alias{whisker.render}
 \title{Logicless templating}
 \usage{
-whisker.render(template, data = parent.frame(), partials = list(),
-  debug = FALSE, strict = TRUE)
+whisker.render(
+  template,
+  data = parent.frame(),
+  partials = list(),
+  debug = FALSE,
+  strict = TRUE
+)
 }
 \arguments{
 \item{template}{\code{character} with template text}
@@ -25,8 +30,8 @@ whisker.render(template, data = parent.frame(), partials = list(),
 Logicless templating
 }
 \note{
-By default whisker applies html escaping on the generated text. 
-To prevent this use \{\{\{variable\}\}\} (triple) in stead of 
+By default whisker applies html escaping on the generated text.
+To prevent this use \{\{\{variable\}\}\} (triple) in stead of
 \{\{variable\}\}.
 }
 \examples{

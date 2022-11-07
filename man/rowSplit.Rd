@@ -9,7 +9,7 @@ rowSplit(x, ...)
 \arguments{
 \item{x}{\code{data.frame} or \code{matrix}}
 
-\item{...}{other options will be passed onto \code{\link{split}}}
+\item{...}{other options will be passed onto \code{\link[=split]{split()}}}
 }
 \description{
 Utility function for splitting a data.frame into rows.
@@ -22,7 +22,7 @@ dat <- unname(rowSplit(dat))
 
 template <- 
 "{{#dat}}
-count: {{count}}, spray: {{spray}}\\n
+count: {{count}}, spray: {{spray}}\n
 {{/dat}}"
 
 whisker.render(template)

@@ -4,11 +4,11 @@ License: GPL-3
 Title: {{mustache}} for R, logicless templating
 Type: Package
 LazyLoad: yes
-Author: Edwin de Jonge
+Authors@R: c(person("Edwin", "de Jonge", email = "edwindjonge@gmail.com", 
+    role = c("aut", "cre"), comment=c(ORCID="0000-0002-6580-4718")))
 Description: Implements 'Mustache' logicless templating.
-Version: 0.4
+Version: 0.5
 URL: http://github.com/edwindj/whisker
-Date: 2010-12-23
 Collate:
     'whisker.R'
     'section.R'
@@ -22,4 +22,6 @@ Collate:
     'rowsplit.R'
 Suggests:
     markdown
-RoxygenNote: 6.1.1
+RoxygenNote: 7.2.1
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)

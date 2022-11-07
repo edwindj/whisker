@@ -1,11 +1,11 @@
 #' Logicless templating
 #'
-#' @param template \code{character} with template text
-#' @param data named \code{list} or \code{environment} with variables that will be used during rendering
-#' @param partials named \code{list} with partial templates, will be used during template construction
+#' @param template `character` with template text
+#' @param data named `list` or `environment` with variables that will be used during rendering
+#' @param partials named `list` with partial templates, will be used during template construction
 #' @param debug Used for debugging purposes, likely to disappear
-#' @param strict \code{logical} if \code{TRUE} the seperation symbol is a "." otherwise a "$"
-#' @return \code{character} with rendered template
+#' @param strict `logical` if `TRUE` the seperation symbol is a "." otherwise a "$"
+#' @return `character` with rendered template
 #' @rdname whisker.render
 #' @example examples/whisker_render.R
 #' @export
@@ -94,7 +94,7 @@ renderTemplate <- function(values, context, texts, renders, debug=FALSE){
 #'
 #' This method is called for normal mustache keys
 #' @export
-#' @param x \code{character} that will be escaped
+#' @param x `character` that will be escaped
 #' @return HTML escaped character 
 whisker.escape <- function(x){
   x <- gsub("&", "&amp;", x)
