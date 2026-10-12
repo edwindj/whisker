@@ -1,3 +1,6 @@
+0.5.1
+- Added checkvars to warn about missing variables during rendering.
+
 0.4 
 - Fixed issue #12: inconsistent treatment of new lines (Thanks to @danhalligan)
 - Updated documentation for disabling html escaping. (issue #16)(Thanks to @ctbrown)

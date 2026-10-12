@@ -5,6 +5,7 @@
 #' @param partials named `list` with partial templates, will be used during template construction
 #' @param debug Used for debugging purposes, likely to disappear
 #' @param strict `logical` if `TRUE` the seperation symbol is a "." otherwise a "$"
+#' @param checkvars `logical` if `TRUE` warn when a rendered variable is missing
 #' @return `character` with rendered template
 #' @rdname whisker.render
 #' @example examples/whisker_render.R
@@ -18,6 +19,7 @@ whisker.render <- function( template
                           , partials = list()
                           , debug = FALSE
                           , strict = TRUE
+                          , checkvars = FALSE
                           ){
    if (is.null(template) || identical(paste(template, collapse=""), "")){
      return("")
@@ -27,6 +29,7 @@ whisker.render <- function( template
                         , partials=as.environment(partials)
                         , debug=debug
                         , strict=strict
+                        , checkvars=checkvars
                         )
    
    return(tmpl(data))
@@ -104,7 +107,7 @@ whisker.escape <- function(x){
   x
 }
   
-resolve <- function(tag, context, debug=FALSE, strict=TRUE){
+resolve <- function(tag, context, debug=FALSE, strict=TRUE, checkvars=FALSE){
   if (tag=="."){
     return(context[[1]])
   }
@@ -116,6 +119,10 @@ resolve <- function(tag, context, debug=FALSE, strict=TRUE){
   keys <- strsplit(tag, split=split_symbol, fixed=TRUE)[[1]]
   if (!length(keys))
     return()
+
+  if (isTRUE(checkvars) && !isPresent(keys, context)){
+    warning("Missing '", tag, "'")
+  }
   
   for (data in context){
     value <- data
@@ -124,6 +131,25 @@ resolve <- function(tag, context, debug=FALSE, strict=TRUE){
     }
     if (!is.null(value)) return(value)
   }
+}
+
+isPresent <- function(keys, context){
+  for (data in context){
+    value <- data
+    present <- TRUE
+    for (key in keys){
+      if (is.environment(value)){
+        present <- exists(key, envir=value, inherits=FALSE)
+      } else {
+        names <- names(value)
+        present <- !is.null(names) && key %in% names
+      }
+      if (!present) break
+      value <- value[[key]]
+    }
+    if (present) return(TRUE)
+  }
+  FALSE
 }
 
 #' Is a value falsey according to Mustache specifications?

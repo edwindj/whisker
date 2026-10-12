@@ -9,7 +9,8 @@ whisker.render(
   data = parent.frame(),
   partials = list(),
   debug = FALSE,
-  strict = TRUE
+  strict = TRUE,
+  checkvars = FALSE
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ whisker.render(
 \item{debug}{Used for debugging purposes, likely to disappear}
 
 \item{strict}{\code{logical} if \code{TRUE} the seperation symbol is a "." otherwise a "$"}
+
+\item{checkvars}{\code{logical} if \code{TRUE} warn when a rendered variable is missing}
 }
 \value{
 \code{character} with rendered template

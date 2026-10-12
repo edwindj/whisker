@@ -1,4 +1,4 @@
-partial <- function(key, partials, indent=""){
+partial <- function(key, partials, indent="", debug=FALSE, strict=TRUE, checkvars=FALSE){
   force(key)
   force(partials)
 
@@ -19,7 +19,7 @@ partial <- function(key, partials, indent=""){
     
     # remove key, because of possible infinite recursion
     partials[[key]] <- NULL
-    template <- parseTemplate(template, partials)
+    template <- parseTemplate(template, partials, debug, strict, checkvars)
     
     #indent the partial template
     env <- environment(template)
